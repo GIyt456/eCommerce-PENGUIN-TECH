@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class MonitorPage extends StatelessWidget {
+class SparepartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,10 +18,11 @@ class MonitorPage extends StatelessWidget {
         actions: [
           GestureDetector(
             onTap: () {
-              // Tambahkan navigasi ke halaman profil di sini
+              // Add navigation to profile page here
             },
             child: CircleAvatar(
-              backgroundImage: AssetImage('../assets/images/pngwing.com-removebg-preview.jpg'),
+              backgroundImage:
+                  AssetImage('../assets/images/pngwing.com-removebg-preview.jpg'),
             ),
           ),
           SizedBox(width: 10),
@@ -48,7 +49,7 @@ class MonitorPage extends StatelessWidget {
 
             // Section Title
             Text(
-              "Monitor's",
+              "Spareparts",
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -66,15 +67,15 @@ class MonitorPage extends StatelessWidget {
                 mainAxisSpacing: 10,
                 childAspectRatio: 0.7,
               ),
-              itemCount: monitors.length,
+              itemCount: spareparts.length,
               itemBuilder: (context, index) {
-                final monitor = monitors[index];
+                final sparepart = spareparts[index];
                 return _buildProductCard(
-                  title: monitor['title']!,
-                  subtitle: monitor['subtitle']!,
-                  image: monitor['image']!,
-                  price: monitor['price']!,
-                  rating: monitor['rating']!,
+                  title: sparepart['title']!,
+                  subtitle: sparepart['subtitle']!,
+                  image: sparepart['image']!,
+                  price: sparepart['price']!,
+                  rating: sparepart['rating']!,
                 );
               },
             ),
@@ -116,6 +117,7 @@ class MonitorPage extends StatelessWidget {
     required String rating,
   }) {
     return Container(
+      height: 300, // Set a fixed height for the card (adjust as needed)
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         border: Border.all(color: Colors.grey[300]!),
@@ -123,15 +125,20 @@ class MonitorPage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Image with flexible size to avoid overflow and maintain original aspect ratio
           ClipRRect(
             borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
             child: Image.asset(
               image,
-              height: 120,
-              width: double.infinity,
-              fit: BoxFit.cover,
+              fit: BoxFit
+                  .contain, // Ensure the image retains its original aspect ratio
+              width: double
+                  .infinity, // Make sure the image stretches to fit the width of the card
+              height:
+                  150, // Set a fixed height for the image (adjust as needed)
             ),
           ),
+          // Content below the image
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
@@ -175,48 +182,49 @@ class MonitorPage extends StatelessWidget {
   }
 }
 
-// Dummy Data for Monitors
-final List<Map<String, String>> monitors = [
+// Dummy Data for Spareparts
+final List<Map<String, String>> spareparts = [
   {
-    'title': 'Acer Predator 27"',
-    'subtitle': 'Ultra Fast Gaming Monitor',
-    'image': '../assets/images/monitar/acer.jpg',
-    'price': 'Rp 12.599.000',
+    'title': 'Processor intel i9',
+    'subtitle': 'i9-9900K Intel Core i9',
+    'image': '../assets/images/sparepart/i9intel.jpeg', // Corrected path
+    'price': 'Rp 3.599.000',
     'rating': '4.8',
   },
   {
-    'title': 'Innocn 27" 165Hz',
-    'subtitle': 'QHD Gaming Monitor',
-    'image': '../assets/images/monitar/innocn.jpg',
-    'price': 'Rp 9.500.000',
+    'title': 'ASUS GeForce RTX 4070',
+    'subtitle': 'ASUS GeForce RTX 4070 Ti',
+    'image': '../assets/images/sparepart/VGAASUS4070.jpeg', // Corrected path
+    'price': 'Rp 5.500.000',
     'rating': '4.7',
   },
   {
-    'title': 'Lenovo Legion R27i',
-    'subtitle': '27 inch IPS 165Hz Monitor',
-    'image': 'assets/images/monitor3.png',
-    'price': 'Rp 11.000.000',
+    'title': 'Corsair Vengeance RAM',
+    'subtitle': 'Memoria DDR4 32GB 3200MHZ',
+    'image': '../assets/images/sparepart/RAMcorsair.jpeg', // Corrected path
+    'price': 'Rp 2.500.000',
     'rating': '4.9',
   },
   {
-    'title': 'Viewsonic Va2432',
-    'subtitle': 'Thin Bezel 75Hz Monitor',
-    'image': 'assets/images/monitor4.png',
-    'price': 'Rp 3.500.000',
+    'title': 'Samsung SSD 1TB',
+    'subtitle': 'Ultra Fast NVMe SSD',
+    'image': '../assets/images/sparepart/SSDsamsung1TB.jpeg', // Corrected path
+    'price': 'Rp 1.999.000',
+    'rating': '4.8',
+  },
+  {
+    'title': 'Keyboard yunzii',
+    'subtitle': 'YUNZII YZ87 75% Gasket Mechanical Keyboard',
+    'image': '../assets/images/sparepart/keyboardyunzii.jpeg', // Corrected path
+    'price': 'Rp 3.999.000',
     'rating': '4.6',
   },
   {
-    'title': 'Samsung Odyssey Ark',
-    'subtitle': 'OLED Gaming Monitor',
-    'image': 'assets/images/monitor5.png',
-    'price': 'Rp 12.995.000',
-    'rating': '4.9',
-  },
-  {
-    'title': 'ROG Strix XG346C',
-    'subtitle': 'Curved Gaming Monitor',
-    'image': 'assets/images/monitor6.png',
-    'price': 'Rp 12.999.000',
+    'title': 'Cougar CONQUER ATX Gaming Case',
+    'subtitle': 'Cougar CONQUER ATX Gaming Case',
+    'image':
+        '../assets/images/sparepart/casingCPUcaugar.jpeg', // Corrected path
+    'price': 'Rp 1.699.000',
     'rating': '4.7',
   },
 ];

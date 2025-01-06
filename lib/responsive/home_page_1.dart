@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'cart_page.dart'; // Import halaman CartPage
 import 'profile_page.dart'; // Import halaman ProfilePage
-import 'monitor_page.dart'; // Import halaman MonitorPage
-import 'laptop_page.dart'; // Import halaman LaptopPage
-import 'sparepart_page.dart'; // Import halaman SparepartPage
+import 'monitors/monitor_page.dart'; // Import halaman MonitorPage
+import 'laptops/laptop_page.dart'; // Import halaman LaptopPage
+import 'spareparts/sparepart_page.dart'; // Import halaman SparepartPage
 import 'wishlist_page.dart'; // Import halaman WishlistPage
-import 'trending_page.dart'; // Import halaman TrendingPage
+import 'trendingproducts/trending_page.dart'; // Import halaman TrendingPage
 
 class HomePage1 extends StatelessWidget {
   @override
@@ -147,24 +147,80 @@ class HomePage1 extends StatelessWidget {
             SizedBox(height: 20),
 
             // Section: Trending Products
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Trending Products',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => TrendingPage()),
-                    );
-                  },
-                  child: Text('View all'),
-                ),
-              ],
+            Container(
+              padding: EdgeInsets.all(16.0),
+              decoration: BoxDecoration(
+                color: Color(0xFF00B0CB), // Background color
+                borderRadius: BorderRadius.circular(10.0), // Rounded corners
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Trending Products',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white, // Text color
+                        ),
+                      ),
+                      SizedBox(height: 8.0),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.calendar_today,
+                            color: Colors.white,
+                            size: 16,
+                          ),
+                          SizedBox(width: 4.0),
+                          Text(
+                            'Last Date 29/02/22',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.white, // Text color
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  OutlinedButton.icon(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => TrendingPage()),
+                      );
+                    },
+                    style: OutlinedButton.styleFrom(
+                      backgroundColor:
+                          Color(0xFF00B0CB), // Inner blue background
+                      side: BorderSide(
+                          color: Colors.white, width: 2.0), // White border
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                    ),
+                    icon: Icon(
+                      Icons.arrow_forward,
+                      color: Colors.white, // Icon color
+                      size: 16,
+                    ),
+                    label: Text(
+                      'View all',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.white, // Text color
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
+
             SizedBox(height: 40),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
@@ -188,18 +244,12 @@ class HomePage1 extends StatelessWidget {
                     rating: '4.0',
                     sold: '56,000',
                   ),
+                  SizedBox(width: 40),
                   _buildProductCard(
                     title: 'Rp 15.000.000',
                     image: '../assets/images/sparepart/prosesorAMDryzen9.jpeg',
                     rating: '4.0',
                     sold: '56,000',
-                  ),
-                  SizedBox(width: 40),
-                  _buildProductCard(
-                    title: 'Rp 23.500.000',
-                    image: '../assets/images/monitar/viewsonic.jpg',
-                    rating: '5.0',
-                    sold: '34,607',
                   ),
                 ],
               ),
@@ -225,6 +275,10 @@ class HomePage1 extends StatelessWidget {
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
+        selectedItemColor:
+            Color(0xFF00B0CB), // Warna biru untuk ikon dan teks yang terpilih
+        unselectedItemColor:
+            Colors.grey, // Warna ikon dan teks yang tidak terpilih
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),

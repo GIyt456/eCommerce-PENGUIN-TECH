@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class SparepartPage extends StatelessWidget {
+class TrendingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,10 +18,11 @@ class SparepartPage extends StatelessWidget {
         actions: [
           GestureDetector(
             onTap: () {
-              // Tambahkan navigasi ke halaman profil di sini
+              // Navigate to Profile Page
             },
             child: CircleAvatar(
-              backgroundImage: AssetImage('assets/images/profile_picture.png'),
+              backgroundImage: AssetImage(
+                  '../assets/images/pngwing.com-removebg-preview.jpg'),
             ),
           ),
           SizedBox(width: 10),
@@ -48,7 +49,7 @@ class SparepartPage extends StatelessWidget {
 
             // Section Title
             Text(
-              "Spareparts",
+              "Trending product",
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -66,15 +67,15 @@ class SparepartPage extends StatelessWidget {
                 mainAxisSpacing: 10,
                 childAspectRatio: 0.7,
               ),
-              itemCount: spareparts.length,
+              itemCount: trendingproduct.length,
               itemBuilder: (context, index) {
-                final sparepart = spareparts[index];
+                final Trenproduct = trendingproduct[index];
                 return _buildProductCard(
-                  title: sparepart['title']!,
-                  subtitle: sparepart['subtitle']!,
-                  image: sparepart['image']!,
-                  price: sparepart['price']!,
-                  rating: sparepart['rating']!,
+                  title: Trenproduct['title']!,
+                  subtitle: Trenproduct['subtitle']!,
+                  image: Trenproduct['image']!,
+                  price: Trenproduct['price']!,
+                  rating: Trenproduct['rating']!,
                 );
               },
             ),
@@ -93,17 +94,14 @@ class SparepartPage extends StatelessWidget {
             label: 'Wishlist',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Search',
+            icon: Icon(Icons.shopping_cart),
+            label: 'Cart',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: 'Profile',
           ),
         ],
-        onTap: (index) {
-          // Handle bottom navigation bar taps here
-        },
       ),
     );
   }
@@ -116,6 +114,7 @@ class SparepartPage extends StatelessWidget {
     required String rating,
   }) {
     return Container(
+      height: 300, // Set a fixed height for the card (adjust as needed)
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         border: Border.all(color: Colors.grey[300]!),
@@ -123,15 +122,20 @@ class SparepartPage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Image with flexible size to avoid overflow and maintain original aspect ratio
           ClipRRect(
             borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
             child: Image.asset(
               image,
-              height: 120,
-              width: double.infinity,
-              fit: BoxFit.cover,
+              fit: BoxFit
+                  .contain, // Ensure the image retains its original aspect ratio
+              width: double
+                  .infinity, // Make sure the image stretches to fit the width of the card
+              height:
+                  150, // Set a fixed height for the image (adjust as needed)
             ),
           ),
+          // Content below the image
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
@@ -175,48 +179,50 @@ class SparepartPage extends StatelessWidget {
   }
 }
 
-// Dummy Data for Spareparts
-final List<Map<String, String>> spareparts = [
+// Dummy Data for Laptops
+final List<Map<String, String>> trendingproduct = [
   {
-    'title': 'Processor i7',
-    'subtitle': '11th Gen Intel Processor',
-    'image': 'assets/images/sparepart1.png',
-    'price': 'Rp 3.599.000',
-    'rating': '4.8',
-  },
-  {
-    'title': 'GTX 1660',
-    'subtitle': 'NVIDIA Graphics Card',
-    'image': 'assets/images/sparepart2.png',
-    'price': 'Rp 5.500.000',
-    'rating': '4.7',
-  },
-  {
-    'title': 'Corsair Vengeance RAM',
-    'subtitle': '16GB DDR4',
-    'image': 'assets/images/sparepart3.png',
-    'price': 'Rp 2.500.000',
-    'rating': '4.9',
-  },
-  {
-    'title': 'Samsung SSD 1TB',
-    'subtitle': 'Ultra Fast NVMe SSD',
-    'image': 'assets/images/sparepart4.png',
-    'price': 'Rp 1.999.000',
-    'rating': '4.8',
-  },
-  {
-    'title': 'Motherboard ASUS',
-    'subtitle': 'Supports Ryzen 9',
-    'image': 'assets/images/sparepart5.png',
+    'title': 'Keyboard yunzii',
+    'subtitle': 'YUNZII YZ87 75% Gasket Mechanical Keyboard',
+    'image': '../assets/images/sparepart/keyboardyunzii.jpeg', // Corrected path
     'price': 'Rp 3.999.000',
     'rating': '4.6',
   },
   {
-    'title': 'Power Supply 750W',
-    'subtitle': '80 Plus Gold Certified',
-    'image': 'assets/images/sparepart6.png',
-    'price': 'Rp 1.699.000',
+    'title': 'Lenovo Legion Pro',
+    'subtitle':
+        'Legion Pro i7 Gen 8 2K240 Laptop (i9-13900HX, 4080, 32GB, 1TB)',
+    'image': '../assets/images/laptop/lenovolegion.jpeg',
+    'price': 'Rp 20.500.000',
+    'rating': '4.7',
+  },
+  {
+    'title': 'Samsung Odyssey Ark',
+    'subtitle': 'OLED Gaming Monitor',
+    'image': '../assets/images/monitar/samsung.jpg',
+    'price': 'Rp 12.995.000',
+    'rating': '4.9',
+  },
+  {
+    'title': 'ASUS TUF Dash F15 FX517ZM-HN001W GAMING',
+    'subtitle':
+        'Intel® Core™ i7-12650H, 16GB RAM, 512GB SSD, GeForce RTX™ 3060, W11 H',
+    'image': '../assets/images/laptop/TUFGAMING.jpeg',
+    'price': 'Rp 18.999.000',
+    'rating': '4.8',
+  },
+  {
+    'title': 'ASUS GeForce RTX 4070',
+    'subtitle': 'ASUS GeForce RTX 4070 Ti',
+    'image': '../assets/images/sparepart/VGAASUS4070.jpeg', // Corrected path
+    'price': 'Rp 5.500.000',
+    'rating': '4.7',
+  },
+  {
+    'title': 'AMD RYZEN 9',
+    'subtitle': 'AMD Ryzen 9 5900X 3_7 GHz 12-Core_24-Thread Processor',
+    'image': '../assets/images/sparepart/prosesorAMDryzen9.jpeg', // Corrected path
+    'price': 'Rp 5.500.000',
     'rating': '4.7',
   },
 ];

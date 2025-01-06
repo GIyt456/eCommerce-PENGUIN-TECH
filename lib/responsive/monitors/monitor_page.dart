@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class LaptopPage extends StatelessWidget {
+class MonitorPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +21,8 @@ class LaptopPage extends StatelessWidget {
               // Tambahkan navigasi ke halaman profil di sini
             },
             child: CircleAvatar(
-              backgroundImage: AssetImage('assets/images/profile_picture.png'),
+              backgroundImage: AssetImage(
+                  '../assets/images/pngwing.com-removebg-preview.jpg'),
             ),
           ),
           SizedBox(width: 10),
@@ -48,7 +49,7 @@ class LaptopPage extends StatelessWidget {
 
             // Section Title
             Text(
-              "Laptop's",
+              "Monitor's",
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -66,15 +67,15 @@ class LaptopPage extends StatelessWidget {
                 mainAxisSpacing: 10,
                 childAspectRatio: 0.7,
               ),
-              itemCount: laptops.length,
+              itemCount: monitors.length,
               itemBuilder: (context, index) {
-                final laptop = laptops[index];
+                final monitor = monitors[index];
                 return _buildProductCard(
-                  title: laptop['title']!,
-                  subtitle: laptop['subtitle']!,
-                  image: laptop['image']!,
-                  price: laptop['price']!,
-                  rating: laptop['rating']!,
+                  title: monitor['title']!,
+                  subtitle: monitor['subtitle']!,
+                  image: monitor['image']!,
+                  price: monitor['price']!,
+                  rating: monitor['rating']!,
                 );
               },
             ),
@@ -127,9 +128,9 @@ class LaptopPage extends StatelessWidget {
             borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
             child: Image.asset(
               image,
-              height: 120,
-              width: double.infinity,
-              fit: BoxFit.cover,
+              height: 150, // Atur tinggi gambar
+              width: double.infinity, // Lebar penuh
+              fit: BoxFit.contain, // Gunakan gambar asli tanpa crop
             ),
           ),
           Padding(
@@ -175,55 +176,48 @@ class LaptopPage extends StatelessWidget {
   }
 }
 
-// Dummy Data for Laptops
-final List<Map<String, String>> laptops = [
+// Dummy Data for Monitors
+final List<Map<String, String>> monitors = [
   {
     'title': 'Acer Predator 27"',
     'subtitle': 'Ultra Fast Gaming Monitor',
-    'image': 'assets/images/laptop1.png',
+    'image': '../assets/images/monitar/acer.jpg',
     'price': 'Rp 12.599.000',
     'rating': '4.8',
   },
   {
-    'title': 'Lenovo Legion Pro',
-    'subtitle': 'Gaming Laptop with RTX 3060',
-    'image': 'assets/images/laptop2.png',
-    'price': 'Rp 7.500.000',
+    'title': 'Innocn 27" 165Hz',
+    'subtitle': 'QHD Gaming Monitor',
+    'image': '../assets/images/monitar/innocn.jpg',
+    'price': 'Rp 9.500.000',
     'rating': '4.7',
   },
   {
-    'title': 'Corsair Vengeance DDR4',
-    'subtitle': 'i9 64GB 3200MHz RAM',
-    'image': 'assets/images/laptop3.png',
-    'price': 'Rp 15.000.000',
+    'title': 'Lenovo Legion R27i',
+    'subtitle': '27 inch IPS 165Hz Monitor',
+    'image': '../assets/images/monitar/lenovo.jpg',
+    'price': 'Rp 11.000.000',
     'rating': '4.9',
   },
   {
-    'title': 'Asus ROG Strix G15',
-    'subtitle': 'Gaming Laptop with RTX 4090',
-    'image': 'assets/images/laptop4.png',
-    'price': 'Rp 16.999.000',
-    'rating': '4.8',
-  },
-  {
-    'title': 'Lenovo LOQ',
-    'subtitle': 'i5 16GB, 1TB SSD',
-    'image': 'assets/images/laptop5.png',
-    'price': 'Rp 5.500.000',
+    'title': 'Viewsonic Va2432',
+    'subtitle': 'Thin Bezel 75Hz Monitor',
+    'image': '../assets/images/monitar/viewsonic.jpg',
+    'price': 'Rp 3.500.000',
     'rating': '4.6',
   },
   {
-    'title': 'Acer Nitro V15',
-    'subtitle': 'Budget Gaming Laptop with RTX 3050',
-    'image': 'assets/images/laptop6.png',
-    'price': 'Rp 6.999.000',
-    'rating': '4.7',
+    'title': 'Samsung Odyssey Ark',
+    'subtitle': 'OLED Gaming Monitor',
+    'image': '../assets/images/monitar/samsung.jpg',
+    'price': 'Rp 12.995.000',
+    'rating': '4.9',
   },
   {
-    'title': 'Asus TUF F15',
-    'subtitle': 'Core i5 12th Gen, GTX 1660 Ti',
-    'image': 'assets/images/laptop7.png',
-    'price': 'Rp 13.500.000',
-    'rating': '4.5',
+    'title': 'ROG Strix XG346C',
+    'subtitle': 'Curved Gaming Monitor',
+    'image': '../assets/images/monitar/Asus.jpg',
+    'price': 'Rp 12.999.000',
+    'rating': '4.7',
   },
 ];
