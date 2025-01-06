@@ -180,14 +180,14 @@ final List<Map<String, String>> monitors = [
   {
     'title': 'Acer Predator 27"',
     'subtitle': 'Ultra Fast Gaming Monitor',
-    'image': 'assets/images/monitar/acer.jpg',
+    'image': '../assets/images/monitar/acer.jpg',
     'price': 'Rp 12.599.000',
     'rating': '4.8',
   },
   {
     'title': 'Innocn 27" 165Hz',
     'subtitle': 'QHD Gaming Monitor',
-    'image': 'assets/images/monitar/innocn.jpg',
+    'image': '../assets/images/monitar/innocn.jpg',
     'price': 'Rp 9.500.000',
     'rating': '4.7',
   },
