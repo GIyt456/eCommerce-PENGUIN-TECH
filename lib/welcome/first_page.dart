@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'home_page_1.dart'; // Import halaman tujuan
+import '../home_page_1.dart'; // Import halaman tujuan
 
 class HomePage extends StatelessWidget {
   @override

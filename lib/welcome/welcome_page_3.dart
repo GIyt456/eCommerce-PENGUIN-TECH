@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'welcome_page.dart';
-import 'welcome_page_3.dart';
-import 'login_page.dart'; // Import halaman LoginPage
+import 'welcome_page_2.dart'; // Halaman kedua
+import 'welcome_page_4.dart'; // Halaman keempat
+import 'login/login_page.dart'; // Import halaman LoginPage
 
-class WelcomePage2 extends StatelessWidget {
+class WelcomePage3 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +19,7 @@ class WelcomePage2 extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    '1/3',
+                    '2/3',
                     style: TextStyle(fontSize: 16, color: Colors.grey),
                   ),
                   TextButton(
@@ -36,13 +36,11 @@ class WelcomePage2 extends StatelessWidget {
               ),
             ),
             SizedBox(height: 40),
-
-            // Gambar dengan sudut melengkung
             ClipRRect(
               borderRadius:
                   BorderRadius.circular(20), // Radius untuk sudut melengkung
               child: Image.asset(
-                '../assets/images/skip1.jpg', // Ganti dengan path gambar Anda
+                '../assets/images/skip2.jpg', // Ganti dengan path gambar Anda
                 height: 300,
                 fit: BoxFit.cover,
               ),
@@ -73,24 +71,25 @@ class WelcomePage2 extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                CircleAvatar(radius: 4, backgroundColor: Colors.blue),
-                SizedBox(width: 8),
                 CircleAvatar(radius: 4, backgroundColor: Colors.grey[300]),
+                SizedBox(width: 8),
+                CircleAvatar(radius: 4, backgroundColor: Colors.blue),
                 SizedBox(width: 8),
                 CircleAvatar(radius: 4, backgroundColor: Colors.grey[300]),
               ],
             ),
-
             SizedBox(height: 20),
+
+            // Tombol Navigasi
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                // Tombol Back
                 TextButton(
                   onPressed: () {
-                    // Navigasi ke halaman sebelumnya
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => WelcomePage()),
+                      MaterialPageRoute(builder: (context) => WelcomePage2()),
                     );
                   },
                   child: Text(
@@ -98,12 +97,12 @@ class WelcomePage2 extends StatelessWidget {
                     style: TextStyle(fontSize: 16, color: Colors.blue),
                   ),
                 ),
+                // Tombol Next
                 TextButton(
                   onPressed: () {
-                    // Navigasi ke halaman berikutnya
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => WelcomePage3()),
+                      MaterialPageRoute(builder: (context) => WelcomePage4()),
                     );
                   },
                   child: Text(

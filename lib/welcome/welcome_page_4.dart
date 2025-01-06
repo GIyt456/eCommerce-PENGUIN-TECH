@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'welcome_page_2.dart'; // Halaman kedua
-import 'welcome_page_4.dart'; // Halaman keempat
-import 'login_page.dart'; // Import halaman LoginPage
+import 'welcome_page_3.dart';
+import 'login/login_page.dart'; // Import halaman login
 
-class WelcomePage3 extends StatelessWidget {
+class WelcomePage4 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -12,22 +11,22 @@ class WelcomePage3 extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Indikator halaman onboarding (2/3)
+            // Indikator halaman onboarding (3/3)
             Align(
-              alignment: Alignment.topLeft,
+              alignment: Alignment.topLeft, // Tanda koma
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    '2/3',
+                    '3/3',
                     style: TextStyle(fontSize: 16, color: Colors.grey),
                   ),
                   TextButton(
                     onPressed: () {
-                      // Navigasi ke LoginPage saat tombol Skip ditekan
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (context) => LoginPage()),
+                        MaterialPageRoute(
+                            builder: (context) => LoginPage()), // Tanda koma
                       );
                     },
                     child: Text('Skip', style: TextStyle(color: Colors.blue)),
@@ -35,12 +34,14 @@ class WelcomePage3 extends StatelessWidget {
                 ],
               ),
             ),
+
             SizedBox(height: 40),
+            // Gambar
             ClipRRect(
               borderRadius:
                   BorderRadius.circular(20), // Radius untuk sudut melengkung
               child: Image.asset(
-                '../assets/images/skip2.jpg', // Ganti dengan path gambar Anda
+                '../assets/images/skip3.jpg', // Ganti dengan path gambar Anda
                 height: 300,
                 fit: BoxFit.cover,
               ),
@@ -73,11 +74,12 @@ class WelcomePage3 extends StatelessWidget {
               children: [
                 CircleAvatar(radius: 4, backgroundColor: Colors.grey[300]),
                 SizedBox(width: 8),
-                CircleAvatar(radius: 4, backgroundColor: Colors.blue),
-                SizedBox(width: 8),
                 CircleAvatar(radius: 4, backgroundColor: Colors.grey[300]),
+                SizedBox(width: 8),
+                CircleAvatar(radius: 4, backgroundColor: Colors.blue),
               ],
             ),
+
             SizedBox(height: 20),
 
             // Tombol Navigasi
@@ -89,7 +91,7 @@ class WelcomePage3 extends StatelessWidget {
                   onPressed: () {
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => WelcomePage2()),
+                      MaterialPageRoute(builder: (context) => WelcomePage3()),
                     );
                   },
                   child: Text(
@@ -102,7 +104,7 @@ class WelcomePage3 extends StatelessWidget {
                   onPressed: () {
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => WelcomePage4()),
+                      MaterialPageRoute(builder: (context) => LoginPage()),
                     );
                   },
                   child: Text(

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_programming/responsive/welcome_page_2.dart';
+import 'package:mobile_programming/welcome/welcome_page_2.dart';
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({Key? key}) : super(key: key);

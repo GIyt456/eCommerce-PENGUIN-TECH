@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'homepage.dart';
+import 'welcome/welcome_page.dart';
+import 'home_page_1.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
     
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      home: WelcomePage(),
       theme: ThemeData(
           primarySwatch: Colors
               .deepPurple), // This trailing comma makes auto-formatting nicer for build methods.

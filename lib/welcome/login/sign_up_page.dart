@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'login_page.dart'; // Import halaman Login
 // Pastikan 'HomePage' diimpor jika digunakan
-import 'home_page.dart';
+import '../first_page.dart';
 
 class SignUpPage extends StatelessWidget {
   @override

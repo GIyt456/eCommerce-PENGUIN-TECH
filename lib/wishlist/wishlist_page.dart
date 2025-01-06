@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'home_page_1.dart'; // Import halaman HomePage1
-import 'profile_page.dart'; // Import halaman ProfilePage
-import 'cart_page.dart'; // Import halaman CartPage
-import 'shop_page.dart'; // Pastikan hanya satu import ini
+import '../home_page_1.dart'; // Import halaman HomePage1
+import '../profile/profile_page.dart'; // Import halaman ProfilePage
+import '../cart_page.dart'; // Import halaman CartPage
+import '../shop_page.dart'; // Pastikan hanya satu import ini
 
 class WishlistPage extends StatelessWidget {
   @override

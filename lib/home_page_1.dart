@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'cart_page.dart'; // Import halaman CartPage
-import 'profile_page.dart'; // Import halaman ProfilePage
+import 'profile/profile_page.dart'; // Import halaman ProfilePage
 import 'monitors/monitor_page.dart'; // Import halaman MonitorPage
 import 'laptops/laptop_page.dart'; // Import halaman LaptopPage
 import 'spareparts/sparepart_page.dart'; // Import halaman SparepartPage
-import 'wishlist_page.dart'; // Import halaman WishlistPage
+import 'wishlist/wishlist_page.dart'; // Import halaman WishlistPage
 import 'trendingproducts/trending_page.dart'; // Import halaman TrendingPage
 
 class HomePage1 extends StatelessWidget {

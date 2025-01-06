@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'sign_up_page.dart'; // Import halaman Sign Up
 import 'forgot_password_page.dart'; // Import halaman Forgot Password
-import 'home_page.dart'; // Import halaman Home
+import '../first_page.dart'; // Import halaman Home
 
 class LoginPage extends StatelessWidget {
   @override
