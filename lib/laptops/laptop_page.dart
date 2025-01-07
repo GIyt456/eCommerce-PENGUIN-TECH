@@ -1,6 +1,57 @@
 import 'package:flutter/material.dart';
+// Import halaman deskripsi
+import 'Acernitro/acernitro_deskripsi.dart';
+import 'LenovoLegion/lenovolegion_deskripsi.dart';
+import 'MacBook/macbook_deskripsi.dart';
+import 'AsusTUF/asustuf_deskripsi.dart';
+import 'HPVictus/hpvictus_deskripsi.dart';
+// Import halaman lainnya
+import 'package:mobile_programming/home_page_1.dart';
+import 'package:mobile_programming/wishlist/wishlist_page.dart';
+import 'package:mobile_programming/cart_page.dart';
+import 'package:mobile_programming/profile/profile_page.dart';
 
-class LaptopPage extends StatelessWidget {
+class LaptopPage extends StatefulWidget {
+  @override
+  _LaptopPageState createState() => _LaptopPageState();
+}
+
+class _LaptopPageState extends State<LaptopPage> {
+  int _selectedIndex = 0;
+  final TextEditingController _searchController = TextEditingController();
+  List<Map<String, String>> _filteredLaptops = laptops;
+
+  final List<Widget> _pages = [
+    HomePage1(),
+    WishlistPage(),
+    CartPage(),
+    ProfilePage(),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => _pages[index]),
+    );
+  }
+
+  void _searchLaptops(String query) {
+    setState(() {
+      if (query.isEmpty) {
+        _filteredLaptops = laptops;
+      } else {
+        _filteredLaptops = laptops
+            .where((laptop) =>
+                laptop['title']!.toLowerCase().contains(query.toLowerCase()))
+            .toList();
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,6 +86,8 @@ class LaptopPage extends StatelessWidget {
           children: [
             // Search Bar
             TextField(
+              controller: _searchController,
+              onChanged: _searchLaptops,
               decoration: InputDecoration(
                 hintText: 'Search any Product...',
                 prefixIcon: Icon(Icons.search),
@@ -67,15 +120,55 @@ class LaptopPage extends StatelessWidget {
                 mainAxisSpacing: 10,
                 childAspectRatio: 0.7,
               ),
-              itemCount: laptops.length,
+              itemCount: _filteredLaptops.length,
               itemBuilder: (context, index) {
-                final laptop = laptops[index];
-                return _buildProductCard(
-                  title: laptop['title']!,
-                  subtitle: laptop['subtitle']!,
-                  image: laptop['image']!,
-                  price: laptop['price']!,
-                  rating: laptop['rating']!,
+                final monitor = _filteredLaptops[index];
+                return GestureDetector(
+                  onTap: () {
+                    if (monitor['title'] == 'Acer Nitro V 15"') {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => acerdescription()),
+                      );
+                    }
+                    if (monitor['title'] == 'Lenovo Legion Pro') {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => lenovodescription()),
+                      );
+                    }
+                    if (monitor['title'] == 'Two MacBookAir') {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => macbookdescription()),
+                      );
+                    }
+                    if (monitor['title'] ==
+                        'ASUS TUF Dash F15 FX517ZM-HN001W GAMING') {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => asustufdescription()),
+                      );
+                    }
+                    if (monitor['title'] == 'HP Victus 15_6 GAMING') {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => hpdescription()),
+                      );
+                    }
+                  },
+                  child: _buildProductCard(
+                    title: monitor['title'] ?? 'Unknown',
+                    subtitle: monitor['subtitle'] ?? 'No description',
+                    price: monitor['price'] ?? 'Rp 0',
+                    image: monitor['image'] ?? 'assets/images/placeholder.png',
+                    rating: monitor['rating'] ?? '0.0',
+                  ),
                 );
               },
             ),
@@ -84,6 +177,9 @@ class LaptopPage extends StatelessWidget {
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
+        currentIndex: _selectedIndex,
+        selectedItemColor: Color(0xFF00B0CB),
+        unselectedItemColor: Colors.grey,
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -94,17 +190,15 @@ class LaptopPage extends StatelessWidget {
             label: 'Wishlist',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Search',
+            icon: Icon(Icons.shopping_cart),
+            label: 'Cart',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: 'Profile',
           ),
         ],
-        onTap: (index) {
-          // Handle bottom navigation bar taps here
-        },
+        onTap: _onItemTapped,
       ),
     );
   }
@@ -117,7 +211,7 @@ class LaptopPage extends StatelessWidget {
     required String rating,
   }) {
     return Container(
-      height: 300, // Set a fixed height for the card (adjust as needed)
+      height: 300,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         border: Border.all(color: Colors.grey[300]!),
@@ -125,20 +219,15 @@ class LaptopPage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Image with flexible size to avoid overflow and maintain original aspect ratio
           ClipRRect(
             borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
             child: Image.asset(
               image,
-              fit: BoxFit
-                  .contain, // Ensure the image retains its original aspect ratio
-              width: double
-                  .infinity, // Make sure the image stretches to fit the width of the card
-              height:
-                  150, // Set a fixed height for the image (adjust as needed)
+              fit: BoxFit.contain,
+              width: double.infinity,
+              height: 150,
             ),
           ),
-          // Content below the image
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(

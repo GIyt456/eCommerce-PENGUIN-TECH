@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
-import 'checkout_page.dart'; // Import halaman Checkout
+import 'package:mobile_programming/home_page_1.dart';
+import 'package:provider/provider.dart';
+import 'cart_model.dart'; // Import the CartProvider
+import 'checkout_page.dart';
+import 'package:mobile_programming/profile/profile_page.dart';
+import 'wishlist/wishlist_page.dart'; // Import CheckoutPage
 
 class CartPage extends StatefulWidget {
   @override
@@ -7,29 +12,46 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
-  // List to track the selection status of each cart item
-  List<bool> selectedItems = [false, false];
-
-  // Variable to track whether all items are selected
   bool selectAll = false;
 
   // Method to toggle the selection of all items
   void toggleSelectAll(bool? value) {
     setState(() {
       selectAll = value!;
-      selectedItems = List.filled(selectedItems.length, selectAll);
     });
+    // Update the selection status of all items in the cart
+    Provider.of<CartProvider>(context, listen: false)
+        .toggleSelectAll(selectAll);
   }
 
-  // Method to toggle individual item selection
-  void toggleItemSelection(int index, bool? value) {
+  // Current index for BottomNavigationBar
+  int _selectedIndex = 2; // Set the default index to 'Cart' (index 2)
+
+  // List of pages to navigate to
+  final List<Widget> _pages = [
+    HomePage1(),
+    WishlistPage(),
+    CartPage(),
+    ProfilePage(),
+  ];
+
+  void _onItemTapped(int index) {
     setState(() {
-      selectedItems[index] = value!;
+      _selectedIndex = index; // Update the selected index
     });
+
+    // Navigate to the selected page
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => _pages[index]),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    // Get cart items from the CartProvider
+    final cartItems = Provider.of<CartProvider>(context).cartItems;
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -38,11 +60,11 @@ class _CartPageState extends State<CartPage> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
-            Navigator.pop(context); // Kembali ke halaman sebelumnya
+            Navigator.pop(context); // Back to the previous page
           },
         ),
         title: Text(
-          'Shopping cart',
+          'Shopping Cart',
           style: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.bold,
@@ -74,16 +96,12 @@ class _CartPageState extends State<CartPage> {
             ),
             Expanded(
               child: ListView.builder(
-                itemCount: selectedItems.length,
+                itemCount: cartItems.length,
                 itemBuilder: (context, index) {
                   return _buildCartItem(
                     context,
+                    cartItems[index], // Use the cart item from the provider
                     index,
-                    image: 'assets/images/product_laptop.png',
-                    title: 'Asus ROG Strix G15',
-                    price: 'Rp 15.999.999',
-                    variations: ['16GB', '32GB'],
-                    rating: 4.8,
                   );
                 },
               ),
@@ -92,7 +110,7 @@ class _CartPageState extends State<CartPage> {
             // Buy Button
             ElevatedButton(
               onPressed: () {
-                // Navigasi ke halaman CheckoutPage
+                // Navigate to CheckoutPage
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -114,26 +132,34 @@ class _CartPageState extends State<CartPage> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        selectedItemColor: Colors.blue,
-        unselectedItemColor: Colors.grey,
+        currentIndex: _selectedIndex,
+        selectedItemColor: Color(0xFF00B0CB), // Blue color for selected item
+        unselectedItemColor: Colors.grey, // Grey color for unselected items
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Wishlist'),
-          BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: 'Cart'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.favorite),
+            label: 'Wishlist',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.shopping_cart),
+            label: 'Cart',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profile',
+          ),
         ],
+        onTap: _onItemTapped, // Update selected index on tap
       ),
     );
   }
 
   Widget _buildCartItem(
-    BuildContext context, int index, {
-    required String image,
-    required String title,
-    required String price,
-    required List<String> variations,
-    required double rating,
-  }) {
+      BuildContext context, CartItem cartItem, int index) {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -157,7 +183,7 @@ class _CartPageState extends State<CartPage> {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Image.asset(
-                    image,
+                    cartItem.image,
                     width: 80,
                     height: 80,
                     fit: BoxFit.cover,
@@ -170,16 +196,11 @@ class _CartPageState extends State<CartPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        title,
+                        cartItem.title,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
-                      ),
-                      SizedBox(height: 8),
-                      Text(
-                        'Variations: ${variations.join('  ')}',
-                        style: TextStyle(color: Colors.grey),
                       ),
                       SizedBox(height: 8),
                       Row(
@@ -187,7 +208,7 @@ class _CartPageState extends State<CartPage> {
                           Icon(Icons.star, size: 16, color: Colors.orange),
                           SizedBox(width: 4),
                           Text(
-                            rating.toString(),
+                            cartItem.rating.toString(),
                             style: TextStyle(color: Colors.grey),
                           ),
                         ],
@@ -195,12 +216,12 @@ class _CartPageState extends State<CartPage> {
                     ],
                   ),
                 ),
-                // Radio Button for selecting the item
-                Radio<bool>(
-                  value: true,
-                  groupValue: selectedItems[index],
+                // Checkbox for selecting the item
+                Checkbox(
+                  value: cartItem.isSelected,
                   onChanged: (value) {
-                    toggleItemSelection(index, value);
+                    Provider.of<CartProvider>(context, listen: false)
+                        .toggleItemSelection(index, value!);
                   },
                 ),
               ],
@@ -214,7 +235,7 @@ class _CartPageState extends State<CartPage> {
                   style: TextStyle(color: Colors.grey),
                 ),
                 Text(
-                  price,
+                  cartItem.price,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,

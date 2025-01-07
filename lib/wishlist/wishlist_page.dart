@@ -1,10 +1,68 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_programming/monitors/ASUSROG/monitorAsus_deskripsi.dart';
+import 'package:mobile_programming/monitors/SAMSUNG/monitorSamsung_deskripsi.dart';
+import 'package:mobile_programming/spareparts/corsair vegeance ram/corsair_deskripsi.dart';
 import '../home_page_1.dart'; // Import halaman HomePage1
 import '../profile/profile_page.dart'; // Import halaman ProfilePage
 import '../cart_page.dart'; // Import halaman CartPage
-import '../shop_page.dart'; // Pastikan hanya satu import ini
+import '../shop_page.dart'; // Import halaman ShopPage
+import '../monitors/ACER/monitorAcer_deskripsi.dart';
 
-class WishlistPage extends StatelessWidget {
+
+class WishlistPage extends StatefulWidget {
+  @override
+  _WishlistPageState createState() => _WishlistPageState();
+}
+
+class _WishlistPageState extends State<WishlistPage> {
+  TextEditingController _searchController = TextEditingController();
+  List<Map<String, String?>> filteredproducts= products;
+
+  void _searchMonitors(String query) {
+    setState(() {
+      if (query.isEmpty) {
+        filteredproducts= products;
+      } else {
+        filteredproducts= products.where((monitor) {
+          final titleLower = monitor['title']!.toLowerCase();
+          final queryLower = query.toLowerCase();
+          return titleLower.contains(queryLower);
+        }).toList();
+      }
+    });
+  }
+
+  int _selectedIndex = 1; // Index tab 'Wishlist'
+
+  void _onItemTapped(int index) {
+    if (index == _selectedIndex)
+      return; // Jika sudah di halaman yang sama, tidak perlu navigasi ulang
+
+    switch (index) {
+      case 0:
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => HomePage1()),
+        );
+        break;
+      case 1:
+        // Tetap di halaman Wishlist
+        break;
+      case 2:
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => CartPage()),
+        );
+        break;
+      case 3:
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => ProfilePage()),
+        );
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,13 +80,14 @@ class WishlistPage extends StatelessWidget {
         actions: [
           GestureDetector(
             onTap: () {
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => ProfilePage()),
               );
             },
             child: CircleAvatar(
-              backgroundImage: AssetImage('assets/images/profile_picture.png'),
+              backgroundImage: AssetImage(
+                  '../assets/images/pngwing.com-removebg-preview.jpg'),
             ),
           ),
           SizedBox(width: 10),
@@ -64,41 +123,81 @@ class WishlistPage extends StatelessWidget {
             SizedBox(height: 10),
 
             // Product Grid
-            Expanded(
-              child: GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                  childAspectRatio: 0.75,
-                ),
-                itemCount: products.length,
-                itemBuilder: (context, index) {
-                  final product = products[index];
-                  return GestureDetector(
-                    onTap: () {
-                      if (product['title'] == 'Asus ROG Strix G15') {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => ShopPage()),
-                        );
-                      }
-                    },
-                    child: _buildProductCard(
-                      title: product['title'] ?? 'Unknown',
-                      price: product['price'] ?? 'Rp 0',
-                      image: product['image'] ?? 'assets/images/placeholder.png',
-                      rating: product['rating'] ?? '0.0',
-                    ),
-                  );
-                },
+            GridView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+                childAspectRatio: 0.7,
               ),
+              itemCount: filteredproducts.length,
+              itemBuilder: (context, index) {
+                final monitor = filteredproducts[index];
+                return GestureDetector(
+                  onTap: () {
+                    if (monitor['title'] == 'Acer Predator 27"') {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MAcerdescription()),
+                      );
+                    }
+                    if (monitor['title'] == 'Asus ROG Strix G15') {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MAsusROGdescription()),
+                      );
+                    }
+                    if (monitor['title'] == 'Samsung Odyssey Ark') {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MSamsungdescription()),
+                      );
+                    }
+                    if (monitor['title'] == 'Corsair') {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => corsairdescription()),
+                      );
+                    }
+                    if (monitor['title'] == 'Samsung Odyssey Ark') {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MSamsungdescription()),
+                      );
+                    }
+                    if (monitor['title'] == 'ASUS ROG Strix XG346C') {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MAsusROGdescription()),
+                      );
+                    }
+                  },
+                  child: _buildProductCard(
+                    title: monitor['title'] ?? 'Unknown',
+                    price: monitor['price'] ?? 'Rp 0',
+                    image: monitor['image'] ?? 'assets/images/placeholder.png',
+                    rating: monitor['rating'] ?? '0.0',
+                  ),
+                );
+              },
             ),
           ],
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        selectedItemColor: Color(0xFF00B0CB), // Blue color for selected item
+        unselectedItemColor: Colors.grey,
         type: BottomNavigationBarType.fixed,
+        onTap: _onItemTapped,
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -117,24 +216,6 @@ class WishlistPage extends StatelessWidget {
             label: 'Profile',
           ),
         ],
-        onTap: (index) {
-          if (index == 0) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => HomePage1()),
-            );
-          } else if (index == 2) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => CartPage()),
-            );
-          } else if (index == 3) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => ProfilePage()),
-            );
-          }
-        },
       ),
     );
   }
@@ -212,25 +293,25 @@ final List<Map<String, String?>> products = [
   {
     'title': 'Acer Predator Z27',
     'price': 'Rp 12.999.000',
-    'image': 'assets/images/monitor.png',
+    'image': '../assets/images/monitar/acer.jpg',
     'rating': '4.5',
   },
   {
     'title': 'Asus ROG Strix G15',
     'price': 'Rp 15.999.000',
-    'image': 'assets/images/laptop.png',
+    'image': '../assets/images/monitar/Asus.jpg',
     'rating': '5.0',
   },
   {
     'title': 'Samsung Odyssey Ark',
     'price': 'Rp 12.999.000',
-    'image': 'assets/images/monitor2.png',
+    'image': '../assets/images/monitar/samsung.jpg',
     'rating': '4.8',
   },
   {
     'title': 'Corsair',
     'price': 'Rp 3.499.000',
-    'image': 'assets/images/ram.png',
+    'image': '../assets/images/sparepart/RAMcorsair.jpeg',
     'rating': '4.7',
   },
 ];

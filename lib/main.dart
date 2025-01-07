@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'welcome/welcome_page.dart';
 import 'home_page_1.dart';
+import 'cart_model.dart'; 
+import 'package:provider/provider.dart';// Make sure to import the CartProvider file
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => CartProvider(),
+      child: MyApp(),
+    ),
+  );
 }
-
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -15,7 +21,7 @@ class MyApp extends StatelessWidget {
     
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: WelcomePage(),
+      home: HomePage1(),
       theme: ThemeData(
           primarySwatch: Colors
               .deepPurple), // This trailing comma makes auto-formatting nicer for build methods.

@@ -1,6 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_programming/monitors/ACER/monitorAcer_deskripsi.dart';
+import 'package:mobile_programming/monitors/ASUSROG/monitorAsus_deskripsi.dart';
+import 'package:mobile_programming/monitors/INNOCN/monitorInnocn_deskripsi.dart';
+import 'package:mobile_programming/monitors/LENOVO/monitorLenovo_deskripsi.dart';
+import 'package:mobile_programming/monitors/SAMSUNG/monitorSamsung_deskripsi.dart';
+import 'package:mobile_programming/monitors/VIEWSONIC/monitorViewsonic_deskripsi.dart';
+import 'package:mobile_programming/home_page_1.dart';
+import 'package:mobile_programming/profile/profile_page.dart';
+import 'package:mobile_programming/cart_page.dart';
 
-class MonitorPage extends StatelessWidget {
+class MonitorPage extends StatefulWidget {
+  @override
+  _MonitorPageState createState() => _MonitorPageState();
+}
+
+class _MonitorPageState extends State<MonitorPage> {
+  TextEditingController _searchController = TextEditingController();
+  List<Map<String, String?>> filteredMonitors = monitors;
+
+  void _searchMonitors(String query) {
+    setState(() {
+      if (query.isEmpty) {
+        filteredMonitors = monitors;
+      } else {
+        filteredMonitors = monitors.where((monitor) {
+          final titleLower = monitor['title']!.toLowerCase();
+          final queryLower = query.toLowerCase();
+          return titleLower.contains(queryLower);
+        }).toList();
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,6 +66,8 @@ class MonitorPage extends StatelessWidget {
           children: [
             // Search Bar
             TextField(
+              controller: _searchController,
+              onChanged: _searchMonitors,
               decoration: InputDecoration(
                 hintText: 'Search any Product...',
                 prefixIcon: Icon(Icons.search),
@@ -67,15 +100,61 @@ class MonitorPage extends StatelessWidget {
                 mainAxisSpacing: 10,
                 childAspectRatio: 0.7,
               ),
-              itemCount: monitors.length,
+              itemCount: filteredMonitors.length,
               itemBuilder: (context, index) {
-                final monitor = monitors[index];
-                return _buildProductCard(
-                  title: monitor['title']!,
-                  subtitle: monitor['subtitle']!,
-                  image: monitor['image']!,
-                  price: monitor['price']!,
-                  rating: monitor['rating']!,
+                final monitor = filteredMonitors[index];
+                return GestureDetector(
+                  onTap: () {
+                    if (monitor['title'] == 'Acer Predator 27"') {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MAcerdescription()),
+                      );
+                    }
+                    if (monitor['title'] == 'Innocn 27" 165Hz') {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MInnocndescription()),
+                      );
+                    }
+                    if (monitor['title'] == 'Lenovo Legion R27i') {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MLenovodescription()),
+                      );
+                    }
+                    if (monitor['title'] == 'Viewsonic Va2432') {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MViewsonicdescription()),
+                      );
+                    }
+                    if (monitor['title'] == 'Samsung Odyssey Ark') {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MSamsungdescription()),
+                      );
+                    }
+                    if (monitor['title'] == 'ASUS ROG Strix XG346C') {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MAsusROGdescription()),
+                      );
+                    }
+                  },
+                  child: _buildProductCard(
+                    title: monitor['title'] ?? 'Unknown',
+                    subtitle: monitor['subtitle'] ?? 'No description',
+                    price: monitor['price'] ?? 'Rp 0',
+                    image: monitor['image'] ?? 'assets/images/placeholder.png',
+                    rating: monitor['rating'] ?? '0.0',
+                  ),
                 );
               },
             ),
@@ -84,6 +163,8 @@ class MonitorPage extends StatelessWidget {
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
+        selectedItemColor: Color(0xFF00B0CB),
+        unselectedItemColor: Colors.grey,
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -94,8 +175,8 @@ class MonitorPage extends StatelessWidget {
             label: 'Wishlist',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Search',
+            icon: Icon(Icons.shopping_cart),
+            label: 'Cart',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
@@ -103,7 +184,17 @@ class MonitorPage extends StatelessWidget {
           ),
         ],
         onTap: (index) {
-          // Handle bottom navigation bar taps here
+          if (index == 2) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => CartPage()),
+            );
+          } else if (index == 3) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ProfilePage()),
+            );
+          }
         },
       ),
     );
@@ -128,9 +219,9 @@ class MonitorPage extends StatelessWidget {
             borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
             child: Image.asset(
               image,
-              height: 150, // Atur tinggi gambar
-              width: double.infinity, // Lebar penuh
-              fit: BoxFit.contain, // Gunakan gambar asli tanpa crop
+              height: 150,
+              width: double.infinity,
+              fit: BoxFit.contain,
             ),
           ),
           Padding(
@@ -177,7 +268,7 @@ class MonitorPage extends StatelessWidget {
 }
 
 // Dummy Data for Monitors
-final List<Map<String, String>> monitors = [
+final List<Map<String, String?>> monitors = [
   {
     'title': 'Acer Predator 27"',
     'subtitle': 'Ultra Fast Gaming Monitor',
@@ -214,7 +305,7 @@ final List<Map<String, String>> monitors = [
     'rating': '4.9',
   },
   {
-    'title': 'ROG Strix XG346C',
+    'title': 'ASUS ROG Strix XG346C',
     'subtitle': 'Curved Gaming Monitor',
     'image': '../assets/images/monitar/Asus.jpg',
     'price': 'Rp 12.999.000',

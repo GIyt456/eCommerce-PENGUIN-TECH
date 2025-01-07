@@ -1,6 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_programming/spareparts/samsung%20ssd%201tb/samsung_deskripsi.dart';
+import '../spareparts/Keyboardyunzii/yunzi_deskripsi.dart';
+import '../laptops/LenovoLegion/lenovolegion_deskripsi.dart';
+import '../monitors/SAMSUNG/monitorSamsung_deskripsi.dart';
+import '../laptops/AsusTUF/asustuf_deskripsi.dart';
+import '../spareparts/ASUSRTX/asusrtx_deskripsi.dart';
+import '../spareparts/prosesor intel i9/intel_deskripsi.dart';
+import 'package:mobile_programming/home_page_1.dart';
+import 'package:mobile_programming/wishlist/wishlist_page.dart';
+import 'package:mobile_programming/cart_page.dart';
+import 'package:mobile_programming/profile/profile_page.dart';
 
-class TrendingPage extends StatelessWidget {
+class TrendingPage extends StatefulWidget {
+  @override
+  _TrendingpageState createState() => _TrendingpageState();
+}
+
+class _TrendingpageState extends State<TrendingPage> {
+  int _selectedIndex = 0;
+
+  final List<Widget> _pages = [
+    HomePage1(),
+    WishlistPage(),
+    CartPage(),
+    ProfilePage(),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index; // Update the selected index
+    });
+
+    // Navigate to the selected page
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => _pages[index]),
+    );
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,13 +106,59 @@ class TrendingPage extends StatelessWidget {
               ),
               itemCount: trendingproduct.length,
               itemBuilder: (context, index) {
-                final Trenproduct = trendingproduct[index];
-                return _buildProductCard(
-                  title: Trenproduct['title']!,
-                  subtitle: Trenproduct['subtitle']!,
-                  image: Trenproduct['image']!,
-                  price: Trenproduct['price']!,
-                  rating: Trenproduct['rating']!,
+                final monitor = trendingproduct[index];
+                return GestureDetector(
+                  onTap: () {
+                    if (monitor['title'] == 'Keyboard yunzii') {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => yunzidescription()),
+                      );
+                    }
+                    if (monitor['title'] == 'Lenovo Legion Pro') {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => lenovodescription()),
+                      );
+                    }
+                    if (monitor['title'] == 'Samsung Odyssey Ark') {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MSamsungdescription()),
+                      );
+                    }
+                    if (monitor['title'] == 'ASUS TUF Dash F15 FX517ZM-HN001W GAMING') {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => asustufdescription()),
+                      );
+                    }
+                    if (monitor['title'] == 'ASUS GeForce RTX 4070') {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => asusdescription()),
+                      );
+                    }
+                    if (monitor['title'] == 'Processor intel i9') {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => inteldescription()),
+                      );
+                    }
+                  },
+                  child: _buildProductCard(
+                    title: monitor['title'] ?? 'Unknown',
+                    subtitle: monitor['subtitle'] ?? 'No description',
+                    price: monitor['price'] ?? 'Rp 0',
+                    image: monitor['image'] ?? 'assets/images/placeholder.png',
+                    rating: monitor['rating'] ?? '0.0',
+                  ),
                 );
               },
             ),
@@ -84,6 +167,9 @@ class TrendingPage extends StatelessWidget {
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
+        currentIndex: _selectedIndex,
+        selectedItemColor: Color(0xFF00B0CB), // Blue color for selected item
+        unselectedItemColor: Colors.grey, // Grey color for unselected items
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -102,6 +188,7 @@ class TrendingPage extends StatelessWidget {
             label: 'Profile',
           ),
         ],
+        onTap: _onItemTapped, // Update selected index on tap
       ),
     );
   }
@@ -219,10 +306,10 @@ final List<Map<String, String>> trendingproduct = [
     'rating': '4.7',
   },
   {
-    'title': 'AMD RYZEN 9',
-    'subtitle': 'AMD Ryzen 9 5900X 3_7 GHz 12-Core_24-Thread Processor',
-    'image': '../assets/images/sparepart/prosesorAMDryzen9.jpeg', // Corrected path
-    'price': 'Rp 5.500.000',
-    'rating': '4.7',
+    'title': 'Processor intel i9',
+    'subtitle': 'i9-9900K Intel Core i9',
+    'image': '../assets/images/sparepart/i9intel.jpeg', // Corrected path
+    'price': 'Rp 3.599.000',
+    'rating': '4.8',
   },
 ];

@@ -1,13 +1,44 @@
 import 'package:flutter/material.dart';
-import 'cart_page.dart'; // Import halaman CartPage
-import 'profile/profile_page.dart'; // Import halaman ProfilePage
-import 'monitors/monitor_page.dart'; // Import halaman MonitorPage
-import 'laptops/laptop_page.dart'; // Import halaman LaptopPage
-import 'spareparts/sparepart_page.dart'; // Import halaman SparepartPage
-import 'wishlist/wishlist_page.dart'; // Import halaman WishlistPage
-import 'trendingproducts/trending_page.dart'; // Import halaman TrendingPage
+import 'package:mobile_programming/laptops/Acernitro/acernitro_deskripsi.dart';
+import 'cart_page.dart'; // Import CartPage
+import 'profile/profile_page.dart'; // Import ProfilePage
+import 'monitors/monitor_page.dart'; // Import MonitorPage
+import 'laptops/laptop_page.dart'; // Import LaptopPage
+import 'spareparts/sparepart_page.dart'; // Import SparepartPage
+import 'wishlist/wishlist_page.dart'; // Import WishlistPage
+import 'trendingproducts/trending_page.dart'; 
+import 'spareparts/ASUSRTX/asusrtx_deskripsi.dart';// Import TrendingPage
+import 'laptops/AsusTUF/asustuf_deskripsi.dart';
+import 'spareparts/Keyboardyunzii/yunzi_deskripsi.dart';
+import 'monitors/ACER/monitorAcer_deskripsi.dart';
 
-class HomePage1 extends StatelessWidget {
+class HomePage1 extends StatefulWidget {
+  @override
+  _HomePage1State createState() => _HomePage1State();
+}
+
+class _HomePage1State extends State<HomePage1> {
+  int _selectedIndex = 0;
+
+  final List<Widget> _pages = [
+    HomePage1(),
+    WishlistPage(),
+    CartPage(),
+    ProfilePage(),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index; // Update the selected index
+    });
+
+    // Navigate to the selected page
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => _pages[index]),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -231,25 +262,57 @@ class HomePage1 extends StatelessWidget {
                     image: '../assets/images/sparepart/VGAASUS4070.jpeg',
                     rating: '4.0',
                     sold: '56,000',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => asusdescription(),
+                        ),
+                      );
+                    },
                   ),
                   _buildProductCard(
                     title: 'Rp 15.000.000',
                     image: '../assets/images/laptop/TUFGAMING.jpeg',
                     rating: '4.0',
                     sold: '56,000',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => asustufdescription(),
+                        ),
+                      );
+                    },
                   ),
                   _buildProductCard(
                     title: 'Rp 15.000.000',
                     image: '../assets/images/sparepart/keyboardyunzii.jpeg',
                     rating: '4.0',
                     sold: '56,000',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => yunzidescription(),
+                        ),
+                      );
+                    },
                   ),
                   SizedBox(width: 40),
                   _buildProductCard(
-                    title: 'Rp 15.000.000',
-                    image: '../assets/images/sparepart/prosesorAMDryzen9.jpeg',
-                    rating: '4.0',
+                    title: 'Rp 12.599.000',
+                    image: '../assets/images/monitar/acer.jpg',
+                    rating: '4.8',
                     sold: '56,000',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MAcerdescription(),
+                        ),
+                      );
+                    },
                   ),
                 ],
               ),
@@ -275,25 +338,16 @@ class HomePage1 extends StatelessWidget {
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        selectedItemColor:
-            Color(0xFF00B0CB), // Warna biru untuk ikon dan teks yang terpilih
-        unselectedItemColor:
-            Colors.grey, // Warna ikon dan teks yang tidak terpilih
+        currentIndex: _selectedIndex,
+        selectedItemColor: Color(0xFF00B0CB), // Blue color for selected item
+        unselectedItemColor: Colors.grey, // Grey color for unselected items
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => WishlistPage()),
-                );
-              },
-              child: Icon(Icons.favorite),
-            ),
+            icon: Icon(Icons.favorite),
             label: 'Wishlist',
           ),
           BottomNavigationBarItem(
@@ -305,19 +359,7 @@ class HomePage1 extends StatelessWidget {
             label: 'Profile',
           ),
         ],
-        onTap: (index) {
-          if (index == 2) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => CartPage()),
-            );
-          } else if (index == 3) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => ProfilePage()),
-            );
-          }
-        },
+        onTap: _onItemTapped, // Update selected index on tap
       ),
     );
   }
@@ -330,18 +372,20 @@ class HomePage1 extends StatelessWidget {
   }) {
     return GestureDetector(
       onTap: onTap,
-      child: Padding(
-        padding: EdgeInsets.only(right: 10),
-        child: Column(
-          children: [
-            CircleAvatar(
-              radius: 30,
-              backgroundImage: AssetImage(imagePath),
+      child: Column(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: Image.asset(
+              imagePath,
+              width: 120,
+              height: 120,
+              fit: BoxFit.cover,
             ),
-            SizedBox(height: 5),
-            Text(title),
-          ],
-        ),
+          ),
+          SizedBox(height: 5),
+          Text(title),
+        ],
       ),
     );
   }
@@ -351,39 +395,58 @@ class HomePage1 extends StatelessWidget {
     required String image,
     required String rating,
     required String sold,
+    required VoidCallback onTap,
   }) {
-    return Container(
-      width: 150,
-      padding: EdgeInsets.all(8.0),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10.0),
-        border: Border.all(color: Colors.grey[300]!),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(10.0),
-            child: Image.asset(
-              image,
-              fit: BoxFit.cover,
-              height: 100,
-              width: double.infinity,
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 160,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.2),
+              blurRadius: 8,
+              spreadRadius: 2,
             ),
-          ),
-          SizedBox(height: 5),
-          Text(
-            title,
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          Row(
-            children: [
-              Icon(Icons.star, color: Colors.orange, size: 14),
-              SizedBox(width: 2),
-              Text('$rating ($sold Sold)'),
-            ],
-          ),
-        ],
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Image.asset(
+              image,
+              width: 160,
+              height: 120,
+              fit: BoxFit.cover,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.star,
+                        color: Colors.amber,
+                        size: 16,
+                      ),
+                      Text(rating),
+                      SizedBox(width: 10),
+                      Text('$sold sold'),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
