@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_programming/cart_page.dart';
 import 'package:mobile_programming/cart_model.dart';
 import 'package:provider/provider.dart';
+import 'package:mobile_programming/order_page.dart';
 
 class MAsusROGdescription extends StatelessWidget {
   @override
@@ -42,24 +43,13 @@ class MAsusROGdescription extends StatelessWidget {
                 child: PageView(
                   children: [
                     Image.asset('../assets/images/monitar/Asus.jpg',
-                        fit: BoxFit.cover),
-                    Image.asset('../assets/images/monitar/Asus.jpg',
-                        fit: BoxFit.cover),
+                        fit: BoxFit.contain,),
+                    Image.asset('../assets/images/monitar/asus_belakang.jpg',
+                        fit: BoxFit.contain,),
                   ],
                 ),
               ),
               SizedBox(height: 10),
-
-              // Product Size Options
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _buildSizeOption('16GB 1TB SSD', Colors.grey),
-                  SizedBox(width: 10),
-                  _buildSizeOption('32GB 1TB SSD', Colors.blue),
-                ],
-              ),
-              SizedBox(height: 20),
 
               // Product Title and Details
               Text(
@@ -79,7 +69,7 @@ class MAsusROGdescription extends StatelessWidget {
               ),
               SizedBox(height: 10),
               Text(
-                'Rp 15.999.999',
+                'Rp 11.000.000',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -98,7 +88,7 @@ class MAsusROGdescription extends StatelessWidget {
               ),
               SizedBox(height: 5),
               Text(
-                'CPU: AMD Ryzen 7 4800H Mobile Processor\nGPU: NVIDIA GeForce RTX 3060\nDisplay: 15.6" Full HD\nRAM: 16GB/32GB\nStorage: 1TB SSD',
+                'Vertical Alignment (VA) Panel, 1800R Curvature, HDMI - DisplayPort Inputs, 2560 x 1440 WQHD Resolution, 3000:1 Contrast Ratio, 400 nits Brightness, 178°/178° Viewing Angles',
               ),
               SizedBox(height: 20),
 
@@ -110,14 +100,14 @@ class MAsusROGdescription extends StatelessWidget {
                     onPressed: () {
                       // Create a CartItem object to add to the cart
                       final cartItem = CartItem(
-                        title: 'Acer Predator 27',
+                        title: 'ASUS ROG Strix XG346C',
                         image: '../assets/images/monitar/Asus.jpg',
-                        price: 'Rp 15.999.999',
+                        price: 'Rp 11.000.000',
                         rating: 4.8, // Add rating here
                       );
                       // Add item to cart
                       Provider.of<CartProvider>(context, listen: false)
-                          .addToCart(cartItem);
+                            .addToCart( cartItem);
 
                       // Navigate to Cart Page
                       Navigator.push(
@@ -131,10 +121,28 @@ class MAsusROGdescription extends StatelessWidget {
                       backgroundColor: Colors.blue,
                     ),
                   ),
-                  ElevatedButton.icon(
-                    onPressed: () {},
-                    icon: Icon(Icons.shopping_bag),
-                    label: Text('Buy Now'),
+
+                ElevatedButton.icon(
+                    onPressed: () {
+                      // Navigate to Order Page with product details
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => OrderPage(
+                            product: {
+                              'title': 'ASUS ROG Strix XG346C',
+                              'price': 'Rp 11.000.000',
+                              'image': '../assets/images/monitar/Asus.jpg',
+                            },
+                          ),
+                        ),
+                      );
+                    },
+                    icon: Icon(Icons.shopping_bag, color: Colors.white),
+                    label: Text(
+                      'Buy Now',
+                      style: TextStyle(color: Colors.white),
+                    ),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green,
                     ),

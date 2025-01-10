@@ -123,7 +123,7 @@ class CheckoutPage extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => OrderPage()),
+                    MaterialPageRoute(builder: (context) => OrderPage(product: {},)),
                   );
                 },
                 style: ElevatedButton.styleFrom(

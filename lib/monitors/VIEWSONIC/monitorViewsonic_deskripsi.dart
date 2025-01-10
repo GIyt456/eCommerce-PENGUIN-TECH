@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_programming/cart_page.dart';
 import 'package:mobile_programming/cart_model.dart';
 import 'package:provider/provider.dart';
+import 'package:mobile_programming/order_page.dart';
 
 class MViewsonicdescription extends StatelessWidget {
   @override
@@ -24,7 +25,8 @@ class MViewsonicdescription extends StatelessWidget {
               // Navigate to Profile Page
             },
             child: CircleAvatar(
-              backgroundImage: AssetImage('../assets/images/pngwing.com-removebg-preview.jpg'),
+              backgroundImage: AssetImage(
+                  '../assets/images/pngwing.com-removebg-preview.jpg'),
             ),
           ),
           SizedBox(width: 10),
@@ -42,24 +44,13 @@ class MViewsonicdescription extends StatelessWidget {
                 child: PageView(
                   children: [
                     Image.asset('../assets/images/monitar/viewsonic.jpg',
-                        fit: BoxFit.cover),
-                    Image.asset('../assets/images/monitar/viewsonic.jpg',
-                        fit: BoxFit.cover),
+                        fit: BoxFit.contain,),
+                    Image.asset('../assets/images/monitar/viewsonic_belakang.jpg',
+                        fit: BoxFit.contain,),
                   ],
                 ),
               ),
               SizedBox(height: 10),
-
-              // Product Size Options
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _buildSizeOption('16GB 1TB SSD', Colors.grey),
-                  SizedBox(width: 10),
-                  _buildSizeOption('32GB 1TB SSD', Colors.blue),
-                ],
-              ),
-              SizedBox(height: 20),
 
               // Product Title and Details
               Text(
@@ -79,7 +70,7 @@ class MViewsonicdescription extends StatelessWidget {
               ),
               SizedBox(height: 10),
               Text(
-                'Rp 15.999.999',
+                'Rp 1.320.000',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -98,7 +89,7 @@ class MViewsonicdescription extends StatelessWidget {
               ),
               SizedBox(height: 5),
               Text(
-                'CPU: AMD Ryzen 7 4800H Mobile Processor\nGPU: NVIDIA GeForce RTX 3060\nDisplay: 15.6" Full HD\nRAM: 16GB/32GB\nStorage: 1TB SSD',
+                '100Hz Variable Refresh Rate delivers fluid visuals, 1ms (MPRT) response time for precision, Eye ProTech+ for comfortable viewing, SuperClear® IPS panel, Full HD 1080p resolution',
               ),
               SizedBox(height: 20),
 
@@ -110,9 +101,9 @@ class MViewsonicdescription extends StatelessWidget {
                     onPressed: () {
                       // Create a CartItem object to add to the cart
                       final cartItem = CartItem(
-                        title: 'Acer Predator 27',
+                        title: 'Viewsonic Va2432',
                         image: '../assets/images/monitar/viewsonic.jpg',
-                        price: 'Rp 15.999.999',
+                        price: 'Rp 1.320.000',
                         rating: 4.8, // Add rating here
                       );
                       // Add item to cart
@@ -132,9 +123,26 @@ class MViewsonicdescription extends StatelessWidget {
                     ),
                   ),
                   ElevatedButton.icon(
-                    onPressed: () {},
-                    icon: Icon(Icons.shopping_bag),
-                    label: Text('Buy Now'),
+                    onPressed: () {
+                      // Navigate to Order Page with product details
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => OrderPage(
+                            product: {
+                              'title': 'Viewsonic Va2432',
+                              'price': 'Rp 1.320.000',
+                              'image': '../assets/images/monitar/viewsonic.jpg',
+                            },
+                          ),
+                        ),
+                      );
+                    },
+                    icon: Icon(Icons.shopping_bag, color: Colors.white),
+                    label: Text(
+                      'Buy Now',
+                      style: TextStyle(color: Colors.white),
+                    ),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green,
                     ),

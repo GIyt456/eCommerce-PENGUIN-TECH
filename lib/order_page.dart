@@ -2,8 +2,17 @@ import 'package:flutter/material.dart';
 import 'shipping_page.dart'; // Pastikan path ini sesuai dengan lokasi file shipping_page.dart
 
 class OrderPage extends StatelessWidget {
+  final Map<String, String> product;
+
+  OrderPage({required this.product});
+
   @override
   Widget build(BuildContext context) {
+    // Konversi harga barang ke angka
+    int productPrice = int.parse(product['price']!.replaceAll('Rp ', '').replaceAll('.', ''));
+    int shippingCost = 15000; // Biaya pengiriman tetap
+    int total = productPrice + shippingCost; // Hitung total
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -36,24 +45,22 @@ class OrderPage extends StatelessWidget {
             SizedBox(height: 10),
             _buildOrderItem(
               context,
-              title: 'Asus ROG Strix G15',
-              price: 'Rp 15.999.999',
-              quantity: 1,
-            ),
-            SizedBox(height: 10),
-            _buildOrderItem(
-              context,
-              title: 'Red Dragon Fizz K617',
-              price: 'Rp 855.599',
+              title: product['title']!,
+              price: product['price']!,
+              image: product['image']!,
               quantity: 1,
             ),
             SizedBox(height: 20),
 
             // Total Section
-            _buildSummaryRow('Subtotal', 'Rp 16.855.598'),
+            _buildSummaryRow('Subtotal', product['price']!),
             _buildSummaryRow('Shipping', 'Rp 15.000'),
             Divider(),
-            _buildSummaryRow('Total', 'Rp 16.870.598', isBold: true),
+            _buildSummaryRow(
+              'Total',
+              'Rp ${_formatCurrency(total)}',
+              isBold: true,
+            ),
 
             Spacer(),
 
@@ -64,7 +71,7 @@ class OrderPage extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => ShippingPage()),
+                    MaterialPageRoute(builder: (context) => ShippingPage(product: product)),
                   );
                 },
                 style: ElevatedButton.styleFrom(
@@ -94,6 +101,7 @@ class OrderPage extends StatelessWidget {
     BuildContext context, {
     required String title,
     required String price,
+    required String image,
     required int quantity,
   }) {
     return Container(
@@ -104,6 +112,13 @@ class OrderPage extends StatelessWidget {
       ),
       child: Row(
         children: [
+          Image.asset(
+            image,
+            width: 60,
+            height: 60,
+            fit: BoxFit.cover,
+          ),
+          SizedBox(width: 10),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -156,5 +171,11 @@ class OrderPage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  String _formatCurrency(int value) {
+    // Format angka ke string Rupiah
+    return value.toString().replaceAllMapped(
+        RegExp(r'(\d)(?=(\d{3})+(?!\d))'), (match) => '${match[1]}.');
   }
 }

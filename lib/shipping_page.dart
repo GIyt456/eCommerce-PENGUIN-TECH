@@ -2,15 +2,40 @@ import 'package:flutter/material.dart';
 import 'sukses_page.dart'; // Pastikan path ini sesuai
 
 class ShippingPage extends StatefulWidget {
+  final Map<String, String> product;
+
+  ShippingPage({required this.product});
+
   @override
   _ShippingPageState createState() => _ShippingPageState();
 }
 
 class _ShippingPageState extends State<ShippingPage> {
   String selectedPaymentMethod = 'BRI'; // Default payment method
+  late int productPrice;
+  final int shippingFee = 15000; // Biaya pengiriman tetap
+
+  // Detail metode pembayaran
+  final Map<String, dynamic> paymentDetails = {
+    'BRI': {'icon': Icons.account_balance, 'card': '********2109'},
+    'PayPal': {'icon': Icons.payment, 'card': '********1234'},
+    'Mandiri': {'icon': Icons.account_balance, 'card': '********5678'},
+    'BCA': {'icon': Icons.account_balance, 'card': '********4321'},
+  };
+
+  @override
+  void initState() {
+    super.initState();
+    // Konversi harga produk ke integer
+    productPrice = int.parse(
+      widget.product['price']!.replaceAll('.', '').replaceAll('Rp ', ''),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
+    int totalPrice = productPrice + shippingFee;
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -36,19 +61,27 @@ class _ShippingPageState extends State<ShippingPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Order Summary Section
-              _buildSummaryRow('Order', 'Rp 15.999.999'),
-              _buildSummaryRow('Shipping', 'Rp 15.000'),
+              Text(
+                'Your Order',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 10),
+              _buildOrderItem(
+                title: widget.product['title']!,
+                price: widget.product['price']!,
+                image: widget.product['image']!,
+              ),
+              SizedBox(height: 20),
+              _buildSummaryRow('Subtotal', 'Rp ${_formatCurrency(productPrice)}'),
+              _buildSummaryRow('Shipping', 'Rp ${_formatCurrency(shippingFee)}'),
               Divider(),
               _buildSummaryRow(
                 'Total',
-                'Rp 16.014.999',
+                'Rp ${_formatCurrency(totalPrice)}',
                 isBold: true,
                 valueColor: Colors.orange,
               ),
               SizedBox(height: 20),
-
-              // Payment Section
               Text(
                 'Payment',
                 style: TextStyle(
@@ -57,42 +90,36 @@ class _ShippingPageState extends State<ShippingPage> {
                 ),
               ),
               SizedBox(height: 10),
-              _buildPaymentOption(
-                icon: Icons.account_balance,
-                title: 'Bank BRI',
-                cardNumber: '********2109',
-                paymentMethod: 'BRI',
-              ),
-              _buildPaymentOption(
-                icon: Icons.payment,
-                title: 'PayPal',
-                cardNumber: '********2109',
-                paymentMethod: 'PayPal',
-              ),
-              _buildPaymentOption(
-                icon: Icons.account_balance,
-                title: 'Bank Mandiri',
-                cardNumber: '********2109',
-                paymentMethod: 'Mandiri',
-              ),
-              _buildPaymentOption(
-                icon: Icons.account_balance,
-                title: 'Bank BCA',
-                cardNumber: '********2109',
-                paymentMethod: 'BCA',
-              ),
+              // Pilihan metode pembayaran
+              ...paymentDetails.entries.map((entry) {
+                return _buildPaymentOption(
+                  icon: entry.value['icon'],
+                  title: entry.key,
+                  cardNumber: entry.value['card'],
+                  paymentMethod: entry.key,
+                );
+              }).toList(),
               SizedBox(height: 20),
-
-              // Continue Button
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => SuksesPage()),
-                    );
-                  },
+                    onPressed: () {
+                      int totalPrice = productPrice + shippingFee;
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SuksesPage(
+                            paymentMethod: selectedPaymentMethod,
+                            paymentIcon: paymentDetails[selectedPaymentMethod]['icon'],
+                            cardNumber: paymentDetails[selectedPaymentMethod]['card'],
+                            subtotal: productPrice,
+                            shippingFee: shippingFee,
+                            totalPrice: totalPrice,
+                          ),
+                        ),
+                      );
+                    },
+
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue,
                     padding: EdgeInsets.symmetric(vertical: 16),
@@ -113,6 +140,47 @@ class _ShippingPageState extends State<ShippingPage> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildOrderItem({
+    required String title,
+    required String price,
+    required String image,
+  }) {
+    return Container(
+      padding: EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey[300]!),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Row(
+        children: [
+          Image.asset(
+            image,
+            width: 60,
+            height: 60,
+            fit: BoxFit.cover,
+          ),
+          SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                ),
+                SizedBox(height: 5),
+                Text(
+                  price,
+                  style: TextStyle(color: Colors.orange, fontSize: 14),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -190,5 +258,10 @@ class _ShippingPageState extends State<ShippingPage> {
         ),
       ),
     );
+  }
+
+  String _formatCurrency(int amount) {
+    return amount.toString().replaceAllMapped(
+        RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match match) => '${match[1]}.');
   }
 }

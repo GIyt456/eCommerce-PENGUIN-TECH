@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_programming/cart_page.dart';
 import 'package:mobile_programming/cart_model.dart';
 import 'package:provider/provider.dart';
+import 'package:mobile_programming/order_page.dart';
 
 class MInnocndescription extends StatelessWidget {
   @override
@@ -24,7 +25,8 @@ class MInnocndescription extends StatelessWidget {
               // Navigate to Profile Page
             },
             child: CircleAvatar(
-              backgroundImage: AssetImage('../assets/images/pngwing.com-removebg-preview.jpg'),
+              backgroundImage: AssetImage(
+                  '../assets/images/pngwing.com-removebg-preview.jpg'),
             ),
           ),
           SizedBox(width: 10),
@@ -41,25 +43,18 @@ class MInnocndescription extends StatelessWidget {
                 aspectRatio: 16 / 9,
                 child: PageView(
                   children: [
-                    Image.asset('../assets/images/monitar/innocn.jpg',
-                        fit: BoxFit.cover),
-                    Image.asset('../assets/images/monitar/innocn.jpg',
-                        fit: BoxFit.cover),
+                    Image.asset(
+                      '../assets/images/monitar/innocn.jpg',
+                      fit: BoxFit.contain,
+                    ),
+                    Image.asset(
+                      '../assets/images/monitar/innocn_belakang.jpg',
+                      fit: BoxFit.contain,
+                    ),
                   ],
                 ),
               ),
               SizedBox(height: 10),
-
-              // Product Size Options
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _buildSizeOption('16GB 1TB SSD', Colors.grey),
-                  SizedBox(width: 10),
-                  _buildSizeOption('32GB 1TB SSD', Colors.blue),
-                ],
-              ),
-              SizedBox(height: 20),
 
               // Product Title and Details
               Text(
@@ -79,7 +74,7 @@ class MInnocndescription extends StatelessWidget {
               ),
               SizedBox(height: 10),
               Text(
-                'Rp 15.999.999',
+                'Rp 9.500.000',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -98,7 +93,7 @@ class MInnocndescription extends StatelessWidget {
               ),
               SizedBox(height: 5),
               Text(
-                'CPU: AMD Ryzen 7 4800H Mobile Processor\nGPU: NVIDIA GeForce RTX 3060\nDisplay: 15.6" Full HD\nRAM: 16GB/32GB\nStorage: 1TB SSD',
+                'INNOCN 27 Inch Gaming Monitor 4K 144Hz HDR400 PC Computer Monitor G-Sync Kompatibel, 1MS, USB Type-C, HDMI, DisPlayPort, Tinggi Adjustable Stand, VESA Mountable, Mesin Hitam, 27G1V',
               ),
               SizedBox(height: 20),
 
@@ -110,9 +105,9 @@ class MInnocndescription extends StatelessWidget {
                     onPressed: () {
                       // Create a CartItem object to add to the cart
                       final cartItem = CartItem(
-                        title: 'Acer Predator 27',
+                        title: 'Innocn 27" 165Hz',
                         image: '../assets/images/monitar/innocn.jpg',
-                        price: 'Rp 15.999.999',
+                        price: '9.500.000',
                         rating: 4.8, // Add rating here
                       );
                       // Add item to cart
@@ -125,16 +120,36 @@ class MInnocndescription extends StatelessWidget {
                         MaterialPageRoute(builder: (context) => CartPage()),
                       );
                     },
-                    icon: Icon(Icons.shopping_cart),
-                    label: Text('Go to Cart'),
+                    icon: Icon(Icons.shopping_cart, color: Colors.white),
+                    label: Text(
+                      'Go to Cart',
+                      style: TextStyle(color: Colors.white),
+                    ),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue,
                     ),
                   ),
                   ElevatedButton.icon(
-                    onPressed: () {},
-                    icon: Icon(Icons.shopping_bag),
-                    label: Text('Buy Now'),
+                    onPressed: () {
+                      // Navigate to Order Page with product details
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => OrderPage(
+                            product: {
+                              'title': 'Innocn 27" 165Hz',
+                              'price': 'Rp 9.500.000',
+                              'image': '../assets/images/monitar/innocn.jpg',
+                            },
+                          ),
+                        ),
+                      );
+                    },
+                    icon: Icon(Icons.shopping_bag, color: Colors.white),
+                    label: Text(
+                      'Buy Now',
+                      style: TextStyle(color: Colors.white),
+                    ),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green,
                     ),

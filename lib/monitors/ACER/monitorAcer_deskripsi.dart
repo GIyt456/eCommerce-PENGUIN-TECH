@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_programming/cart_page.dart';
 import 'package:mobile_programming/cart_model.dart';
 import 'package:provider/provider.dart';
+import 'package:mobile_programming/order_page.dart';
 
 class MAcerdescription extends StatelessWidget {
   @override
@@ -24,7 +25,8 @@ class MAcerdescription extends StatelessWidget {
               // Navigate to Profile Page
             },
             child: CircleAvatar(
-              backgroundImage: AssetImage('../assets/images/pngwing.com-removebg-preview.jpg'),
+              backgroundImage: AssetImage(
+                  '../assets/images/pngwing.com-removebg-preview.jpg'),
             ),
           ),
           SizedBox(width: 10),
@@ -41,8 +43,14 @@ class MAcerdescription extends StatelessWidget {
                 aspectRatio: 16 / 9,
                 child: PageView(
                   children: [
-                    Image.asset('../assets/images/monitar/acer.jpg', fit: BoxFit.cover),
-                    Image.asset('../assets/images/monitar/acer.jpg', fit: BoxFit.cover),
+                    Image.asset(
+                      '../assets/images/monitar/acer.jpg',
+                      fit: BoxFit.contain,
+                    ),
+                    Image.asset(
+                      '../assets/images/monitar/acer_belakang.jpg',
+                      fit: BoxFit.contain,
+                    ),
                   ],
                 ),
               ),
@@ -93,36 +101,57 @@ class MAcerdescription extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-              ElevatedButton.icon(
-                onPressed: () {
-                  // Create a CartItem object to add to the cart
-                  final cartItem = CartItem(
-                    title: 'Acer Predator 27',
-                    image: '../assets/images/monitar/acer.jpg',
-                    price: 'Rp 15.999.999',
-                    rating: 4.8, // Add rating here
-                  );
-                  // Add item to cart
-                  Provider.of<CartProvider>(context, listen: false)
-                      .addToCart(cartItem);
-
-                  // Navigate to Cart Page
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => CartPage()),
-                  );
-                },
-                icon: Icon(Icons.shopping_cart),
-                label: Text('Go to Cart'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                ),
-              ),
-
                   ElevatedButton.icon(
-                    onPressed: () {},
-                    icon: Icon(Icons.shopping_bag),
-                    label: Text('Buy Now'),
+                    onPressed: () {
+                      // Create a CartItem object to add to the cart with the correct price
+                      final cartItem = CartItem(
+                        title: 'Acer Predator 27',
+                        image: '../assets/images/monitar/acer.jpg',
+                        price:
+                            'Rp 12.599.000', // Ensure the correct price is passed
+                        rating: 4.8,
+                      );
+
+                      // Add item to cart
+                      Provider.of<CartProvider>(context, listen: false)
+                          .addToCart(cartItem);
+
+                      // Navigate to Cart Page
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => CartPage()),
+                      );
+                    },
+                    icon: Icon(Icons.shopping_cart, color: Colors.white),
+                    label: Text(
+                      'Go to Cart',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue,
+                    ),
+                  ),
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      // Navigate to Order Page with product details
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => OrderPage(
+                            product: {
+                              'title': 'Acer Predator 27',
+                              'price': 'Rp 12.599.000',
+                              'image': '../assets/images/monitar/acer.jpg',
+                            },
+                          ),
+                        ),
+                      );
+                    },
+                    icon: Icon(Icons.shopping_bag, color: Colors.white),
+                    label: Text(
+                      'Buy Now',
+                      style: TextStyle(color: Colors.white),
+                    ),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green,
                     ),

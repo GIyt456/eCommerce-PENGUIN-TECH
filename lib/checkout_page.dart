@@ -1,9 +1,20 @@
 import 'package:flutter/material.dart';
-import 'order_page.dart'; // Pastikan path ini sesuai
+import 'cart_model.dart'; // Ensure this path is correct
+import 'order_page.dart'; // Ensure this path is correct
 
 class CheckoutPage extends StatelessWidget {
+  final List<CartItem> selectedItems;
+
+  CheckoutPage({required this.selectedItems});
+
   @override
   Widget build(BuildContext context) {
+    // Get the CartProvider
+    final cartProvider = CartProvider();
+
+    // Calculate the total price of the selected items
+    double totalPrice = cartProvider.calculateTotalPrice();
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -77,44 +88,22 @@ class CheckoutPage extends StatelessWidget {
               ),
             ),
             SizedBox(height: 10),
-            _buildShoppingItem(
-              title: 'Asus ROG Strix G15',
-              image: 'assets/images/laptop.png', // Ganti sesuai path
-              variations: '16GB | 32GB',
-              rating: '4.8',
-              price: 'Rp 15.999.999',
-              quantity: 1,
-            ),
-            SizedBox(height: 10),
-            _buildShoppingItem(
-              title: 'Red Dragon Fizz K617',
-              image: 'assets/images/keyboard.png', // Ganti sesuai path
-              variations: 'White | Black',
-              rating: '4.7',
-              price: 'Rp 855.599',
-              quantity: 1,
+            Column(
+              children: selectedItems.map((item) {
+                return _buildShoppingItem(
+                  title: item.title,
+                  image: item.image,
+                  variations: 'Some variation', // Customize as needed
+                  rating: item.rating.toString(),
+                  price: item.price,
+                  quantity: item.quantity, // Now using the quantity from CartItem
+                );
+              }).toList(),
             ),
             SizedBox(height: 20),
 
-            // Order Summary Section
-            Text(
-              'Order Summary',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 10),
-            _buildSummaryRow('Subtotal', 'Rp 15.999.999'),
-            _buildSummaryRow('Shipping', 'Rp 15.000'),
-            Divider(),
-            _buildSummaryRow(
-              'Total',
-              'Rp 16.014.999',
-              isBold: true,
-              valueColor: Colors.orange,
-            ),
-            SizedBox(height: 20),
+            // Total Price Summary
+            _buildSummaryRow('Total Price', '\$${totalPrice.toStringAsFixed(2)}', isBold: true),
 
             // Proceed Button
             SizedBox(
@@ -123,7 +112,7 @@ class CheckoutPage extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => OrderPage()),
+                    MaterialPageRoute(builder: (context) => OrderPage(product: {},)),
                   );
                 },
                 style: ElevatedButton.styleFrom(

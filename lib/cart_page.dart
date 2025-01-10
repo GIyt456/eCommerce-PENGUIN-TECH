@@ -108,16 +108,16 @@ class _CartPageState extends State<CartPage> {
             ),
             SizedBox(height: 20),
             // Buy Button
-            ElevatedButton(
-              onPressed: () {
-                // Navigate to CheckoutPage
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => CheckoutPage(),
-                  ),
-                );
-              },
+          ElevatedButton(
+            onPressed: () {
+              final selectedItems = Provider.of<CartProvider>(context, listen: false).selectedItems;
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CheckoutPage(selectedItems: selectedItems),
+                ),
+              );
+            },
               style: ElevatedButton.styleFrom(
                 padding: EdgeInsets.symmetric(vertical: 16),
                 minimumSize: Size(double.infinity, 50),

@@ -1,6 +1,22 @@
 import 'package:flutter/material.dart';
 
 class SuksesPage extends StatelessWidget {
+  final String paymentMethod;
+  final IconData paymentIcon;
+  final String cardNumber;
+  final int subtotal;
+  final int shippingFee;
+  final int totalPrice;
+
+  SuksesPage({
+    required this.paymentMethod,
+    required this.paymentIcon,
+    required this.cardNumber,
+    required this.subtotal,
+    required this.shippingFee,
+    required this.totalPrice,
+  });
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,15 +54,15 @@ class SuksesPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildSummaryRow('Order', 'Rp 15.999.999'),
+                  _buildSummaryRow('Order', 'Rp ${_formatCurrency(subtotal)}'),
                   SizedBox(height: 5),
-                  _buildSummaryRow('Shipping', 'Rp 15.000'),
+                  _buildSummaryRow('Shipping', 'Rp ${_formatCurrency(shippingFee)}'),
                   SizedBox(height: 10),
                   Divider(),
                   SizedBox(height: 10),
                   _buildSummaryRow(
                     'Total',
-                    'Rp 16.014.999',
+                    'Rp ${_formatCurrency(totalPrice)}',
                     isBold: true,
                     color: Colors.orange,
                   ),
@@ -90,10 +106,13 @@ class SuksesPage extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.credit_card, color: Colors.blue),
+                      Icon(
+                        paymentIcon,
+                        color: Colors.blue,
+                      ),
                       SizedBox(width: 10),
                       Text(
-                        '********2109',
+                        cardNumber,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -102,13 +121,19 @@ class SuksesPage extends StatelessWidget {
                       ),
                     ],
                   ),
+                  SizedBox(height: 10),
+                  Text(
+                    'Payment via $paymentMethod',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey[600],
+                    ),
+                  ),
                 ],
               ),
             ),
 
             Spacer(),
-
-            // Bottom Navigation Bar
           ],
         ),
       ),
@@ -138,5 +163,10 @@ class SuksesPage extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  String _formatCurrency(int amount) {
+    return amount.toString().replaceAllMapped(
+        RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match match) => '${match[1]}.');
   }
 }
