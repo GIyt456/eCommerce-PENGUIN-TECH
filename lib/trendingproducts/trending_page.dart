@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_programming/spareparts/samsung%20ssd%201tb/samsung_deskripsi.dart';
 import '../spareparts/Keyboardyunzii/yunzi_deskripsi.dart';
 import '../laptops/LenovoLegion/lenovolegion_deskripsi.dart';
 import '../monitors/SAMSUNG/monitorSamsung_deskripsi.dart';
