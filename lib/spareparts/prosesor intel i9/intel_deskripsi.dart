@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_programming/cart_page.dart';
 import 'package:mobile_programming/cart_model.dart';
 import 'package:provider/provider.dart';
+import 'package:mobile_programming/order_page.dart';
 
 class inteldescription extends StatelessWidget {
   @override
@@ -24,7 +25,8 @@ class inteldescription extends StatelessWidget {
               // Navigate to Profile Page
             },
             child: CircleAvatar(
-              backgroundImage: AssetImage('../assets/images/pngwing.com-removebg-preview.jpg'),
+              backgroundImage: AssetImage(
+                  '../assets/images/pngwing.com-removebg-preview.jpg'),
             ),
           ),
           SizedBox(width: 10),
@@ -41,8 +43,14 @@ class inteldescription extends StatelessWidget {
                 aspectRatio: 16 / 9,
                 child: PageView(
                   children: [
-                    Image.asset('../assets/images/sparepart/i9intel.jpeg', fit: BoxFit.cover),
-                    Image.asset('../assets/images/sparepart/i9intel.jpeg', fit: BoxFit.cover),
+                    Image.asset(
+                      '../assets/images/sparepart/i9intel.jpeg',
+                      fit: BoxFit.contain,
+                    ),
+                    Image.asset(
+                      '../assets/images/sparepart/i9intel_belakang.jpg',
+                      fit: BoxFit.contain,
+                    ),
                   ],
                 ),
               ),
@@ -50,7 +58,7 @@ class inteldescription extends StatelessWidget {
 
               // Product Title and Details
               Text(
-                'Acer Predator 27',
+                'Processor intel i9',
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -66,7 +74,7 @@ class inteldescription extends StatelessWidget {
               ),
               SizedBox(height: 10),
               Text(
-                'Rp 12.599.000',
+                'Rp 12.000.000',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -85,7 +93,7 @@ class inteldescription extends StatelessWidget {
               ),
               SizedBox(height: 5),
               Text(
-                'Display: 27” IPS Quantum Dot Display with Predator Shield & Light Sensor, 10 bits ; Resolution: Ultra HD 4K, 144hz, 4ms ; Contrast Ratio: 100 million : 1 Brightness: 600 nits – 1000 nits ; HDR: HDR Ultra, VESA Certified DisplayHDR1000 , Nvidia G-Sync HDR ; Input: HDMI(2.0) + DisplayPort(1.4) + USB Hub 3.0×4 (1up 4down) ; Output: Audio Out + Speakers (4Wx2)',
+                '8 Cores / 16 Threads, 3.60 GHz up to 5.00 GHz / 16 MB Cache, Compatible only with Motherboards based on Intel 300 Series Chipsets, Intel Optane Memory Supported, Intel UHD Graphics 630',
               ),
               SizedBox(height: 20),
 
@@ -93,36 +101,57 @@ class inteldescription extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-              ElevatedButton.icon(
-                onPressed: () {
-                  // Create a CartItem object to add to the cart
-                  final cartItem = CartItem(
-                    title: 'Acer Predator 27',
-                    image: '../assets/images/sparepart/i9intel.jpeg',
-                    price: 'Rp 15.999.999',
-                    rating: 4.8, // Add rating here
-                  );
-                  // Add item to cart
-                  Provider.of<CartProvider>(context, listen: false)
-                      .addToCart(cartItem);
-
-                  // Navigate to Cart Page
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => CartPage()),
-                  );
-                },
-                icon: Icon(Icons.shopping_cart),
-                label: Text('Go to Cart'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                ),
-              ),
-
                   ElevatedButton.icon(
-                    onPressed: () {},
-                    icon: Icon(Icons.shopping_bag),
-                    label: Text('Buy Now'),
+                    onPressed: () {
+                      // Create a CartItem object to add to the cart with the correct price
+                      final cartItem = CartItem(
+                        title: 'Processor intel i9',
+                        image: '../assets/images/sparepart/i9intel.jpeg',
+                        price:
+                            'Rp 12.000.000', // Ensure the correct price is passed
+                        rating: 4.8,
+                      );
+
+                      // Add item to cart
+                      Provider.of<CartProvider>(context, listen: false)
+                          .addToCart(cartItem);
+
+                      // Navigate to Cart Page
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => CartPage()),
+                      );
+                    },
+                    icon: Icon(Icons.shopping_cart, color: Colors.white),
+                    label: Text(
+                      'Go to Cart',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue,
+                    ),
+                  ),
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      // Navigate to Order Page with product details
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => OrderPage(
+                            product: {
+                              'title': 'Processor intel i9',
+                              'price': 'Rp 12.000.000',
+                              'image': '../assets/images/sparepart/i9intel.jpeg',
+                            },
+                          ),
+                        ),
+                      );
+                    },
+                    icon: Icon(Icons.shopping_bag, color: Colors.white),
+                    label: Text(
+                      'Buy Now',
+                      style: TextStyle(color: Colors.white),
+                    ),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green,
                     ),

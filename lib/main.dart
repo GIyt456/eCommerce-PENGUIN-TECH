@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
     
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomePage1(),
+      home: WelcomePage(),
       theme: ThemeData(
           primarySwatch: Colors
               .deepPurple), // This trailing comma makes auto-formatting nicer for build methods.

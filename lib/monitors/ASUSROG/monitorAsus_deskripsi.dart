@@ -25,7 +25,8 @@ class MAsusROGdescription extends StatelessWidget {
               // Navigate to Profile Page
             },
             child: CircleAvatar(
-              backgroundImage: AssetImage('../assets/images/pngwing.com-removebg-preview.jpg'),
+              backgroundImage: AssetImage(
+                  '../assets/images/pngwing.com-removebg-preview.jpg'),
             ),
           ),
           SizedBox(width: 10),
@@ -42,10 +43,14 @@ class MAsusROGdescription extends StatelessWidget {
                 aspectRatio: 16 / 9,
                 child: PageView(
                   children: [
-                    Image.asset('../assets/images/monitar/Asus.jpg',
-                        fit: BoxFit.contain,),
-                    Image.asset('../assets/images/monitar/asus_belakang.jpg',
-                        fit: BoxFit.contain,),
+                    Image.asset(
+                      '../assets/images/monitar/Asus.jpg',
+                      fit: BoxFit.contain,
+                    ),
+                    Image.asset(
+                      '../assets/images/monitar/asus_belakang.jpg',
+                      fit: BoxFit.contain,
+                    ),
                   ],
                 ),
               ),
@@ -98,16 +103,18 @@ class MAsusROGdescription extends StatelessWidget {
                 children: [
                   ElevatedButton.icon(
                     onPressed: () {
-                      // Create a CartItem object to add to the cart
+                      // Create a CartItem object to add to the cart with the correct price
                       final cartItem = CartItem(
                         title: 'ASUS ROG Strix XG346C',
                         image: '../assets/images/monitar/Asus.jpg',
-                        price: 'Rp 11.000.000',
-                        rating: 4.8, // Add rating here
+                        price:
+                            'Rp 11.000.000', // Ensure the correct price is passed
+                        rating: 4.8,
                       );
+
                       // Add item to cart
                       Provider.of<CartProvider>(context, listen: false)
-                            .addToCart( cartItem);
+                          .addToCart(cartItem);
 
                       // Navigate to Cart Page
                       Navigator.push(
@@ -115,14 +122,16 @@ class MAsusROGdescription extends StatelessWidget {
                         MaterialPageRoute(builder: (context) => CartPage()),
                       );
                     },
-                    icon: Icon(Icons.shopping_cart),
-                    label: Text('Go to Cart'),
+                    icon: Icon(Icons.shopping_cart, color: Colors.white),
+                    label: Text(
+                      'Go to Cart',
+                      style: TextStyle(color: Colors.white),
+                    ),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue,
                     ),
                   ),
-
-                ElevatedButton.icon(
+                  ElevatedButton.icon(
                     onPressed: () {
                       // Navigate to Order Page with product details
                       Navigator.push(

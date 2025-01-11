@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'shipping_page.dart'; // Pastikan path ini sesuai dengan lokasi file shipping_page.dart
+import 'shipping_page.dart'; // Pastikan path ini benar
+import 'cart_model.dart'; // Pastikan path ini benar
 
 class OrderPage extends StatelessWidget {
   final Map<String, String> product;
@@ -12,6 +13,13 @@ class OrderPage extends StatelessWidget {
     int productPrice = int.parse(product['price']!.replaceAll('Rp ', '').replaceAll('.', ''));
     int shippingCost = 15000; // Biaya pengiriman tetap
     int total = productPrice + shippingCost; // Hitung total
+
+    CartItem cartItem = CartItem(
+      title: product['title']!,
+      image: product['image']!,
+      price: product['price']!,
+      rating: 4.5,
+    );
 
     return Scaffold(
       appBar: AppBar(
@@ -37,7 +45,6 @@ class OrderPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Order Summary Section
             Text(
               'Your Order',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -51,8 +58,6 @@ class OrderPage extends StatelessWidget {
               quantity: 1,
             ),
             SizedBox(height: 20),
-
-            // Total Section
             _buildSummaryRow('Subtotal', product['price']!),
             _buildSummaryRow('Shipping', 'Rp 15.000'),
             Divider(),
@@ -61,17 +66,21 @@ class OrderPage extends StatelessWidget {
               'Rp ${_formatCurrency(total)}',
               isBold: true,
             ),
-
             Spacer(),
-
-            // Proceed to Payment Button
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => ShippingPage(product: product)),
+                    MaterialPageRoute(
+                      builder: (context) => ShippingPage(
+                        selectedItems: [cartItem],
+                        subtotal: productPrice,
+                        shippingFee: shippingCost,
+                        totalPrice: total, product: {},
+                      ),
+                    ),
                   );
                 },
                 style: ElevatedButton.styleFrom(
@@ -174,7 +183,6 @@ class OrderPage extends StatelessWidget {
   }
 
   String _formatCurrency(int value) {
-    // Format angka ke string Rupiah
     return value.toString().replaceAllMapped(
         RegExp(r'(\d)(?=(\d{3})+(?!\d))'), (match) => '${match[1]}.');
   }

@@ -6,8 +6,8 @@ import 'monitors/monitor_page.dart'; // Import MonitorPage
 import 'laptops/laptop_page.dart'; // Import LaptopPage
 import 'spareparts/sparepart_page.dart'; // Import SparepartPage
 import 'wishlist/wishlist_page.dart'; // Import WishlistPage
-import 'trendingproducts/trending_page.dart'; 
-import 'spareparts/ASUSRTX/asusrtx_deskripsi.dart';// Import TrendingPage
+import 'trendingproducts/trending_page.dart';
+import 'spareparts/ASUSRTX/asusrtx_deskripsi.dart'; // Import TrendingPage
 import 'laptops/AsusTUF/asustuf_deskripsi.dart';
 import 'spareparts/Keyboardyunzii/yunzi_deskripsi.dart';
 import 'monitors/ACER/monitorAcer_deskripsi.dart';
@@ -373,18 +373,24 @@ class _HomePage1State extends State<HomePage1> {
     return GestureDetector(
       onTap: onTap,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: Image.asset(
-              imagePath,
-              width: 120,
-              height: 120,
-              fit: BoxFit.cover,
+          Container(
+            width: 80, // Lebih kecil
+            height: 80,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle, // Membuat lingkaran
+              image: DecorationImage(
+                image: AssetImage(imagePath),
+                fit: BoxFit.cover,
+              ),
             ),
           ),
-          SizedBox(height: 5),
-          Text(title),
+          SizedBox(height: 8), // Jarak antara gambar dan teks
+          Text(
+            title,
+            style: TextStyle(fontSize: 12), // Teks lebih kecil
+          ),
         ],
       ),
     );

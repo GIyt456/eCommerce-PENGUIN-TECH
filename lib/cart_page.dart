@@ -108,24 +108,34 @@ class _CartPageState extends State<CartPage> {
             ),
             SizedBox(height: 20),
             // Buy Button
-          ElevatedButton(
-            onPressed: () {
-              final selectedItems = Provider.of<CartProvider>(context, listen: false).selectedItems;
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => CheckoutPage(selectedItems: selectedItems),
-                ),
-              );
-            },
+            ElevatedButton(
+              onPressed: () {
+                final selectedItems =
+                    Provider.of<CartProvider>(context, listen: false)
+                        .selectedItems;
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        CheckoutPage(selectedItems: selectedItems),
+                  ),
+                );
+              },
               style: ElevatedButton.styleFrom(
+                backgroundColor:
+                    Colors.blue, // Latar belakang tombol berwarna biru
                 padding: EdgeInsets.symmetric(vertical: 16),
                 minimumSize: Size(double.infinity, 50),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12.0),
                 ),
               ),
-              child: Text('BUY'),
+              child: Text(
+                'BUY',
+                style: TextStyle(
+                  color: Colors.white, // Teks tombol berwarna putih
+                ),
+              ),
             ),
           ],
         ),
@@ -158,8 +168,7 @@ class _CartPageState extends State<CartPage> {
     );
   }
 
-  Widget _buildCartItem(
-      BuildContext context, CartItem cartItem, int index) {
+  Widget _buildCartItem(BuildContext context, CartItem cartItem, int index) {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,

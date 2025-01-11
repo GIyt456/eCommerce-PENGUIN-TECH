@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_programming/cart_page.dart';
 import 'package:mobile_programming/cart_model.dart';
 import 'package:provider/provider.dart';
+import 'package:mobile_programming/order_page.dart';
 
 class macbookdescription extends StatelessWidget {
   @override
@@ -24,7 +25,8 @@ class macbookdescription extends StatelessWidget {
               // Navigate to Profile Page
             },
             child: CircleAvatar(
-              backgroundImage: AssetImage('../assets/images/pngwing.com-removebg-preview.jpg'),
+              backgroundImage: AssetImage(
+                  '../assets/images/pngwing.com-removebg-preview.jpg'),
             ),
           ),
           SizedBox(width: 10),
@@ -41,8 +43,14 @@ class macbookdescription extends StatelessWidget {
                 aspectRatio: 16 / 9,
                 child: PageView(
                   children: [
-                    Image.asset('../assets/images/laptop/lenovoLOQ.jpeg', fit: BoxFit.cover),
-                    Image.asset('../assets/images/laptop/lenovoLOQ.jpeg', fit: BoxFit.cover),
+                    Image.asset(
+                      '../assets/images/laptop/MACbook.jpeg',
+                      fit: BoxFit.contain,
+                    ),
+                    Image.asset(
+                      '../assets/images/laptop/MACbook_belakang.jpeg',
+                      fit: BoxFit.contain,
+                    ),
                   ],
                 ),
               ),
@@ -50,7 +58,7 @@ class macbookdescription extends StatelessWidget {
 
               // Product Title and Details
               Text(
-                'Acer Predator 27',
+                'Two MacBookAir',
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -66,7 +74,7 @@ class macbookdescription extends StatelessWidget {
               ),
               SizedBox(height: 10),
               Text(
-                'Rp 12.599.000',
+                'Rp 15.000.000',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -85,7 +93,7 @@ class macbookdescription extends StatelessWidget {
               ),
               SizedBox(height: 5),
               Text(
-                'Display: 27” IPS Quantum Dot Display with Predator Shield & Light Sensor, 10 bits ; Resolution: Ultra HD 4K, 144hz, 4ms ; Contrast Ratio: 100 million : 1 Brightness: 600 nits – 1000 nits ; HDR: HDR Ultra, VESA Certified DisplayHDR1000 , Nvidia G-Sync HDR ; Input: HDMI(2.0) + DisplayPort(1.4) + USB Hub 3.0×4 (1up 4down) ; Output: Audio Out + Speakers (4Wx2)',
+                'MacBook Air (M2, 2022) dengan kapasitas 256 GB dalam warna Space Gray adalah pilihan sempurna bagi Anda yang menginginkan performa tinggi dan daya tahan luar biasa. Didukung oleh chip M2 generasi terbaru, laptop ini menawarkan kecepatan dan efisiensi yang tak tertandingi untuk mendukung berbagai tugas multitasking. Desainnya yang ramping terbuat dari aluminium berkualitas tinggi memberikan daya tahan maksimal. Dengan daya tahan baterai hingga 18 jam, Anda bisa bekerja seharian tanpa perlu khawatir mencari sumber listrik. Layar 13,6 inci dengan sudut melengkung memberikan pengalaman visual yang memukau. Nikmati performa canggih dan desain elegan dalam satu paket kompak yang mudah dibawa ke mana saja.',
               ),
               SizedBox(height: 20),
 
@@ -93,36 +101,57 @@ class macbookdescription extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-              ElevatedButton.icon(
-                onPressed: () {
-                  // Create a CartItem object to add to the cart
-                  final cartItem = CartItem(
-                    title: 'Acer Predator 27',
-                    image: '../assets/images/laptop/lenovoLOQ.jpeg',
-                    price: 'Rp 15.999.999',
-                    rating: 4.8, // Add rating here
-                  );
-                  // Add item to cart
-                  Provider.of<CartProvider>(context, listen: false)
-                      .addToCart(cartItem);
-
-                  // Navigate to Cart Page
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => CartPage()),
-                  );
-                },
-                icon: Icon(Icons.shopping_cart),
-                label: Text('Go to Cart'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                ),
-              ),
-
                   ElevatedButton.icon(
-                    onPressed: () {},
-                    icon: Icon(Icons.shopping_bag),
-                    label: Text('Buy Now'),
+                    onPressed: () {
+                      // Create a CartItem object to add to the cart with the correct price
+                      final cartItem = CartItem(
+                        title: 'Two MacBookAir',
+                        image: '../assets/images/laptop/MACbook.jpeg',
+                        price:
+                            'Rp 15.000.000', // Ensure the correct price is passed
+                        rating: 4.8,
+                      );
+
+                      // Add item to cart
+                      Provider.of<CartProvider>(context, listen: false)
+                          .addToCart(cartItem);
+
+                      // Navigate to Cart Page
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => CartPage()),
+                      );
+                    },
+                    icon: Icon(Icons.shopping_cart, color: Colors.white),
+                    label: Text(
+                      'Go to Cart',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue,
+                    ),
+                  ),
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      // Navigate to Order Page with product details
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => OrderPage(
+                            product: {
+                              'title': 'Two MacBookAir',
+                              'price': 'Rp 15.000.000',
+                              'image': '../assets/images/laptop/MACbook.jpeg',
+                            },
+                          ),
+                        ),
+                      );
+                    },
+                    icon: Icon(Icons.shopping_bag, color: Colors.white),
+                    label: Text(
+                      'Buy Now',
+                      style: TextStyle(color: Colors.white),
+                    ),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green,
                     ),

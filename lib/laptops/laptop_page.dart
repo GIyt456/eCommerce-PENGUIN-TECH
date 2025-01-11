@@ -277,7 +277,7 @@ final List<Map<String, String>> laptops = [
     'title': 'Acer Nitro V 15"',
     'subtitle': 'Intel Core i5-13420H_16GB_1TB SSD_RTX 3050_15_6_',
     'image': '../assets/images/laptop/acernitrolaptop.jpeg',
-    'price': 'Rp 12.599.000',
+    'price': 'Rp 18.000.000',
     'rating': '4.8',
   },
   {
@@ -285,14 +285,14 @@ final List<Map<String, String>> laptops = [
     'subtitle':
         'Legion Pro i7 Gen 8 2K240 Laptop (i9-13900HX, 4080, 32GB, 1TB)',
     'image': '../assets/images/laptop/lenovolegion.jpeg',
-    'price': 'Rp 20.500.000',
+    'price': 'Rp 20.000.000',
     'rating': '4.7',
   },
   {
     'title': 'Two MacBookAir',
     'subtitle': 'Two MacBookAir M2 Space Gray',
-    'image': '../assets/images/laptop/lenovoLOQ.jpeg',
-    'price': 'Rp 25.000.000',
+    'image': '../assets/images/laptop/MACbook.jpeg',
+    'price': 'Rp 15.000.000',
     'rating': '4.9',
   },
   {
@@ -300,14 +300,14 @@ final List<Map<String, String>> laptops = [
     'subtitle':
         'Intel® Core™ i7-12650H, 16GB RAM, 512GB SSD, GeForce RTX™ 3060, W11 H',
     'image': '../assets/images/laptop/TUFGAMING.jpeg',
-    'price': 'Rp 18.999.000',
+    'price': 'Rp 19.000.000',
     'rating': '4.8',
   },
   {
     'title': 'HP Victus 15_6 GAMING',
     'subtitle': 'HP Victus 15_6 inch FHD IPS 144Hz Gaming Laptop',
     'image': '../assets/images/laptop/HPvictus.jpeg',
-    'price': 'Rp 5.500.000',
+    'price': 'Rp 15.000.000',
     'rating': '4.6',
   },
 ];

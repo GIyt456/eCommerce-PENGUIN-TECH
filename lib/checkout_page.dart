@@ -1,19 +1,69 @@
 import 'package:flutter/material.dart';
-import 'cart_model.dart'; // Ensure this path is correct
-import 'order_page.dart'; // Ensure this path is correct
+import 'cart_model.dart'; // Ensure this path is correct // Ensure this path is correct
+import 'shipping_page.dart';
 
-class CheckoutPage extends StatelessWidget {
+class CheckoutPage extends StatefulWidget {
   final List<CartItem> selectedItems;
 
   CheckoutPage({required this.selectedItems});
 
   @override
-  Widget build(BuildContext context) {
-    // Get the CartProvider
-    final cartProvider = CartProvider();
+  _CheckoutPageState createState() => _CheckoutPageState();
+}
 
-    // Calculate the total price of the selected items
-    double totalPrice = cartProvider.calculateTotalPrice();
+class _CheckoutPageState extends State<CheckoutPage> {
+  String deliveryAddress = 'Jalan Veteran, No. 17, Jakarta Pusat, Indonesia';
+
+  void _editAddress(BuildContext context) {
+    TextEditingController addressController =
+        TextEditingController(text: deliveryAddress);
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Edit Delivery Address'),
+          content: TextField(
+            controller: addressController,
+            maxLines: 3,
+            decoration: InputDecoration(
+              hintText: 'Enter new delivery address',
+              border: OutlineInputBorder(),
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  deliveryAddress = addressController.text.trim();
+                });
+                Navigator.pop(context);
+              },
+              child: Text('Save'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // Calculate shipping cost and total price
+    double shippingCost = 15000.0;
+    double totalPrice = widget.selectedItems.fold(
+      0,
+      (sum, item) =>
+          sum +
+          (item.parsedPrice * item.quantity) +
+          (shippingCost * item.quantity),
+    );
 
     return Scaffold(
       appBar: AppBar(
@@ -58,20 +108,17 @@ class CheckoutPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Flexible(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Jalan Veteran, No. 17, Jakarta Pusat, Indonesia',
-                          style: TextStyle(fontSize: 14),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
+                    child: Text(
+                      deliveryAddress,
+                      style: TextStyle(fontSize: 14),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      _editAddress(context);
+                    },
                     icon: Icon(Icons.edit, color: Colors.blue),
                   ),
                 ],
@@ -89,30 +136,50 @@ class CheckoutPage extends StatelessWidget {
             ),
             SizedBox(height: 10),
             Column(
-              children: selectedItems.map((item) {
+              children: widget.selectedItems.map((item) {
                 return _buildShoppingItem(
-                  title: item.title,
-                  image: item.image,
-                  variations: 'Some variation', // Customize as needed
-                  rating: item.rating.toString(),
-                  price: item.price,
-                  quantity: item.quantity, // Now using the quantity from CartItem
+                  item: item,
+                  shippingCost: shippingCost,
                 );
               }).toList(),
             ),
             SizedBox(height: 20),
 
+            // Shipping Cost Summary
+            _buildSummaryRow(
+              'Shipping Cost',
+              'Rp ${(shippingCost * widget.selectedItems.fold(0, (sum, item) => sum + item.quantity)).toInt()}',
+            ),
+
             // Total Price Summary
-            _buildSummaryRow('Total Price', '\$${totalPrice.toStringAsFixed(2)}', isBold: true),
+            _buildSummaryRow(
+              'Total Price',
+              'Rp ${totalPrice.toInt()}',
+              isBold: true,
+            ),
 
             // Proceed Button
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
+                  double subtotal = widget.selectedItems.fold(
+                    0,
+                    (sum, item) => sum + (item.parsedPrice * item.quantity),
+                  );
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => OrderPage(product: {},)),
+                    MaterialPageRoute(
+                      builder: (context) => ShippingPage(
+                        selectedItems: widget.selectedItems,
+                        subtotal: subtotal.toInt(),
+                        shippingFee: (shippingCost *
+                                widget.selectedItems.fold(
+                                    0, (sum, item) => sum + item.quantity))
+                            .toInt(),
+                        totalPrice: totalPrice.toInt(), product: {},
+                      ),
+                    ),
                   );
                 },
                 style: ElevatedButton.styleFrom(
@@ -139,13 +206,12 @@ class CheckoutPage extends StatelessWidget {
   }
 
   Widget _buildShoppingItem({
-    required String title,
-    required String image,
-    required String variations,
-    required String rating,
-    required String price,
-    required int quantity,
+    required CartItem item,
+    required double shippingCost,
   }) {
+    double itemTotalPrice =
+        item.parsedPrice * item.quantity + (shippingCost * item.quantity);
+
     return Container(
       padding: EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -157,7 +223,7 @@ class CheckoutPage extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(10),
             child: Image.asset(
-              image,
+              item.image,
               fit: BoxFit.cover,
               width: 80,
               height: 80,
@@ -169,7 +235,7 @@ class CheckoutPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  title,
+                  item.title,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
@@ -177,7 +243,7 @@ class CheckoutPage extends StatelessWidget {
                 ),
                 SizedBox(height: 5),
                 Text(
-                  'Variations: $variations',
+                  'Variations: Some variation', // Customize as needed
                   style: TextStyle(
                     fontSize: 14,
                     color: Colors.grey[700],
@@ -188,7 +254,7 @@ class CheckoutPage extends StatelessWidget {
                   children: [
                     Icon(Icons.star, color: Colors.orange, size: 16),
                     SizedBox(width: 5),
-                    Text('$rating'),
+                    Text('${item.rating}'),
                   ],
                 ),
               ],
@@ -198,14 +264,26 @@ class CheckoutPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                price,
+                'Rp ${item.parsedPrice.toInt()}',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.orange,
                 ),
               ),
               SizedBox(height: 5),
-              Text('Total Order ($quantity)'),
+              Text('Qty: ${item.quantity}'),
+              SizedBox(height: 5),
+              Text(
+                'Shipping: Rp ${(shippingCost * item.quantity).toInt()}',
+                style: TextStyle(color: Colors.grey[600]),
+              ),
+              Text(
+                'Total: Rp ${itemTotalPrice.toInt()}',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.green,
+                ),
+              ),
             ],
           ),
         ],

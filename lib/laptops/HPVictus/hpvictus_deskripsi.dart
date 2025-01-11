@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_programming/cart_page.dart';
 import 'package:mobile_programming/cart_model.dart';
 import 'package:provider/provider.dart';
+import 'package:mobile_programming/order_page.dart';
 
 class hpdescription extends StatelessWidget {
   @override
@@ -24,7 +25,8 @@ class hpdescription extends StatelessWidget {
               // Navigate to Profile Page
             },
             child: CircleAvatar(
-              backgroundImage: AssetImage('../assets/images/pngwing.com-removebg-preview.jpg'),
+              backgroundImage: AssetImage(
+                  '../assets/images/pngwing.com-removebg-preview.jpg'),
             ),
           ),
           SizedBox(width: 10),
@@ -41,8 +43,14 @@ class hpdescription extends StatelessWidget {
                 aspectRatio: 16 / 9,
                 child: PageView(
                   children: [
-                    Image.asset('../assets/images/laptop/HPvictus.jpeg', fit: BoxFit.cover),
-                    Image.asset('../assets/images/laptop/HPvictus.jpeg', fit: BoxFit.cover),
+                    Image.asset(
+                      '../assets/images/laptop/HPvictus.jpeg',
+                      fit: BoxFit.contain,
+                    ),
+                    Image.asset(
+                      '../assets/images/laptop/HPvictus_belakang.jpg',
+                      fit: BoxFit.contain,
+                    ),
                   ],
                 ),
               ),
@@ -50,7 +58,7 @@ class hpdescription extends StatelessWidget {
 
               // Product Title and Details
               Text(
-                'Acer Predator 27',
+                'HP Victus 15_6 GAMING',
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -66,7 +74,7 @@ class hpdescription extends StatelessWidget {
               ),
               SizedBox(height: 10),
               Text(
-                'Rp 12.599.000',
+                'Rp 15.000.000',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -85,7 +93,7 @@ class hpdescription extends StatelessWidget {
               ),
               SizedBox(height: 5),
               Text(
-                'Display: 27” IPS Quantum Dot Display with Predator Shield & Light Sensor, 10 bits ; Resolution: Ultra HD 4K, 144hz, 4ms ; Contrast Ratio: 100 million : 1 Brightness: 600 nits – 1000 nits ; HDR: HDR Ultra, VESA Certified DisplayHDR1000 , Nvidia G-Sync HDR ; Input: HDMI(2.0) + DisplayPort(1.4) + USB Hub 3.0×4 (1up 4down) ; Output: Audio Out + Speakers (4Wx2)',
+                'Laptop : HP VICTUS 15 INTEL I5 12500H RTX4060-8GB 15.6 FHD 144HZ WIN11HOME MICA SILVER SPESIFIKASI : Processor : Intel Core i5-12500H (up to 4.5 GHz with Intel Turbo Boost Technology, 18 MB L3 cache, 12 cores, 16 threads) Display: 15.6′′ diagonal, FHD (1920 x 1080), 144 Hz, IPS, micro-edge, anti-glare, 250 nits, 45% NTSC Memory: 16GB - 32GB DDR4-3200 MHz Storage : 512GB - 1TB PCIe NVMe TLC M.2 SSD Graphics : NVIDIA GeForce RTX 4060 Laptop GPU (8GB GDDR6 dedicated) Keyboard: Full-size, backlit, mica silver keyboard with numeric keypad Wireless: Wi-Fi 6 (2×2) and Bluetooth 5.2 combo (Supporting Gigabit data rate) Color : Mica Silver Ports: 1 SuperSpeed USB Type-C 5Gbps signaling rate (DisplayPort 1.4 HP Sleep and Charge); 1 SuperSpeed USB Type-A 5Gbps signaling rate (HP Sleep and Charge); 1 SuperSpeed USB Type-A 5Gbps signaling rate; 1 HDMI 2.1; 1 RJ-45; 1 AC smart pin; 1 headphone/microphone combo; 1 multi-format SD media card reader KELENGKAPAN : DUS CHARGER UNIT BONUS : TAS BACKPACK HP MOUSE GAMING KEREN MOUSEPAD GAMING KEREN JIKA TAMBAH PAKET ANTIGORES TERDAPAT : Antigores Layar Laptop Pelindung Body Belakang Laptop/laminating Skin Keyboard Cleaning Kits ( Pembersih Laptop ) KENAPA HARUS BELI LAPTOP DI TOKO KAMI: Product yang kami jual di jamin 100% Original Bergaransi pengiriman cepat, semua layanan expedisi TERSEDIA Packing Di jamin aman, Free tambahan Buble wrap secara gratis Berlaku garansi tukar unit, jika Barang saat di terima rusak / Berbeda Unit yg di Order Dengan dasar di wajibkan lampirin Vidio Unboxing',
               ),
               SizedBox(height: 20),
 
@@ -93,36 +101,57 @@ class hpdescription extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-              ElevatedButton.icon(
-                onPressed: () {
-                  // Create a CartItem object to add to the cart
-                  final cartItem = CartItem(
-                    title: 'Acer Predator 27',
-                    image: '../assets/images/laptop/HPvictus.jpeg',
-                    price: 'Rp 15.999.999',
-                    rating: 4.8, // Add rating here
-                  );
-                  // Add item to cart
-                  Provider.of<CartProvider>(context, listen: false)
-                      .addToCart(cartItem);
-
-                  // Navigate to Cart Page
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => CartPage()),
-                  );
-                },
-                icon: Icon(Icons.shopping_cart),
-                label: Text('Go to Cart'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                ),
-              ),
-
                   ElevatedButton.icon(
-                    onPressed: () {},
-                    icon: Icon(Icons.shopping_bag),
-                    label: Text('Buy Now'),
+                    onPressed: () {
+                      // Create a CartItem object to add to the cart with the correct price
+                      final cartItem = CartItem(
+                        title: 'HP Victus 15_6 GAMING',
+                        image: '../assets/images/laptop/HPvictus.jpeg',
+                        price:
+                            'Rp 15.000.000', // Ensure the correct price is passed
+                        rating: 4.8,
+                      );
+
+                      // Add item to cart
+                      Provider.of<CartProvider>(context, listen: false)
+                          .addToCart(cartItem);
+
+                      // Navigate to Cart Page
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => CartPage()),
+                      );
+                    },
+                    icon: Icon(Icons.shopping_cart, color: Colors.white),
+                    label: Text(
+                      'Go to Cart',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue,
+                    ),
+                  ),
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      // Navigate to Order Page with product details
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => OrderPage(
+                            product: {
+                              'title': 'HP Victus 15_6 GAMING',
+                              'price': 'Rp 15.000.000',
+                              'image': '../assets/images/laptop/HPvictus.jpeg',
+                            },
+                          ),
+                        ),
+                      );
+                    },
+                    icon: Icon(Icons.shopping_bag, color: Colors.white),
+                    label: Text(
+                      'Buy Now',
+                      style: TextStyle(color: Colors.white),
+                    ),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green,
                     ),

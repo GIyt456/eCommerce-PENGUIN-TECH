@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
-import 'sukses_page.dart'; // Pastikan path ini sesuai
+import 'sukses_page.dart';
+import 'cart_model.dart';
 
 class ShippingPage extends StatefulWidget {
-  final Map<String, String> product;
+  final List<CartItem> selectedItems;
+  final int subtotal;
+  final int shippingFee;
+  final int totalPrice;
 
-  ShippingPage({required this.product});
+  ShippingPage({
+    required this.selectedItems,
+    required this.subtotal,
+    required this.shippingFee,
+    required this.totalPrice, required Map<String, String> product,
+  });
 
   @override
   _ShippingPageState createState() => _ShippingPageState();
@@ -12,8 +21,6 @@ class ShippingPage extends StatefulWidget {
 
 class _ShippingPageState extends State<ShippingPage> {
   String selectedPaymentMethod = 'BRI'; // Default payment method
-  late int productPrice;
-  final int shippingFee = 15000; // Biaya pengiriman tetap
 
   // Detail metode pembayaran
   final Map<String, dynamic> paymentDetails = {
@@ -24,18 +31,7 @@ class _ShippingPageState extends State<ShippingPage> {
   };
 
   @override
-  void initState() {
-    super.initState();
-    // Konversi harga produk ke integer
-    productPrice = int.parse(
-      widget.product['price']!.replaceAll('.', '').replaceAll('Rp ', ''),
-    );
-  }
-
-  @override
   Widget build(BuildContext context) {
-    int totalPrice = productPrice + shippingFee;
-
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -66,18 +62,20 @@ class _ShippingPageState extends State<ShippingPage> {
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 10),
-              _buildOrderItem(
-                title: widget.product['title']!,
-                price: widget.product['price']!,
-                image: widget.product['image']!,
-              ),
+              ...widget.selectedItems.map((item) {
+                return _buildOrderItem(
+                  title: item.title,
+                  price: 'Rp ${item.parsedPrice.toInt()}',
+                  image: item.image,
+                );
+              }).toList(),
               SizedBox(height: 20),
-              _buildSummaryRow('Subtotal', 'Rp ${_formatCurrency(productPrice)}'),
-              _buildSummaryRow('Shipping', 'Rp ${_formatCurrency(shippingFee)}'),
+              _buildSummaryRow('Subtotal', 'Rp ${widget.subtotal}'),
+              _buildSummaryRow('Shipping', 'Rp ${widget.shippingFee}'),
               Divider(),
               _buildSummaryRow(
                 'Total',
-                'Rp ${_formatCurrency(totalPrice)}',
+                'Rp ${widget.totalPrice}',
                 isBold: true,
                 valueColor: Colors.orange,
               ),
@@ -90,7 +88,6 @@ class _ShippingPageState extends State<ShippingPage> {
                 ),
               ),
               SizedBox(height: 10),
-              // Pilihan metode pembayaran
               ...paymentDetails.entries.map((entry) {
                 return _buildPaymentOption(
                   icon: entry.value['icon'],
@@ -103,23 +100,21 @@ class _ShippingPageState extends State<ShippingPage> {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                    onPressed: () {
-                      int totalPrice = productPrice + shippingFee;
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => SuksesPage(
-                            paymentMethod: selectedPaymentMethod,
-                            paymentIcon: paymentDetails[selectedPaymentMethod]['icon'],
-                            cardNumber: paymentDetails[selectedPaymentMethod]['card'],
-                            subtotal: productPrice,
-                            shippingFee: shippingFee,
-                            totalPrice: totalPrice,
-                          ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SuksesPage(
+                          paymentMethod: selectedPaymentMethod,
+                          paymentIcon: paymentDetails[selectedPaymentMethod]['icon'],
+                          cardNumber: paymentDetails[selectedPaymentMethod]['card'],
+                          subtotal: widget.subtotal,
+                          shippingFee: widget.shippingFee,
+                          totalPrice: widget.totalPrice,
                         ),
-                      );
-                    },
-
+                      ),
+                    );
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue,
                     padding: EdgeInsets.symmetric(vertical: 16),
@@ -128,7 +123,7 @@ class _ShippingPageState extends State<ShippingPage> {
                     ),
                   ),
                   child: Text(
-                    'Continue',
+                    'Confirm Payment',
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -258,10 +253,5 @@ class _ShippingPageState extends State<ShippingPage> {
         ),
       ),
     );
-  }
-
-  String _formatCurrency(int amount) {
-    return amount.toString().replaceAllMapped(
-        RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match match) => '${match[1]}.');
   }
 }

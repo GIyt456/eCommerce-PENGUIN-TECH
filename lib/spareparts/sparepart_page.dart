@@ -103,7 +103,7 @@ class _SparepartPageState extends State<SparepartPage> {
                                     return asusdescription();
                                   case 'Processor intel i9':
                                     return inteldescription();
-                                  case 'Corsair Vengeance RAM':
+                                  case 'Corsair Vengeance RAM 32GB':
                                     return corsairdescription();
                                   case 'Samsung SSD 1TB':
                                     return samsungdescription();
@@ -207,21 +207,21 @@ final List<Map<String, String>> spareparts = [
     'title': 'Processor intel i9',
     'subtitle': 'i9-9900K Intel Core i9',
     'image': '../assets/images/sparepart/i9intel.jpeg',
-    'price': 'Rp 3.599.000',
+    'price': 'Rp 12.000.000',
     'rating': '4.8',
   },
   {
     'title': 'ASUS GeForce RTX 4070',
-    'subtitle': 'ASUS GeForce RTX 4070 Ti',
+    'subtitle': 'ASUS TUF Gaming GeForce RTX 4070 Ti SUPER 16GB GDDR6X White OC Edition',
     'image': '../assets/images/sparepart/VGAASUS4070.jpeg',
-    'price': 'Rp 5.500.000',
+    'price': 'Rp 18.000.000',
     'rating': '4.7',
   },
   {
-    'title': 'Corsair Vengeance RAM',
+    'title': 'Corsair Vengeance RAM 32GB',
     'subtitle': 'Memoria DDR4 32GB 3200MHZ',
     'image': '../assets/images/sparepart/RAMcorsair.jpeg',
-    'price': 'Rp 2.500.000',
+    'price': 'Rp 1.500.000',
     'rating': '4.9',
   },
   {
@@ -235,14 +235,14 @@ final List<Map<String, String>> spareparts = [
     'title': 'Keyboard yunzii',
     'subtitle': 'YUNZII YZ87 75% Gasket Mechanical Keyboard',
     'image': '../assets/images/sparepart/keyboardyunzii.jpeg',
-    'price': 'Rp 3.999.000',
+    'price': 'Rp 2.000.000',
     'rating': '4.6',
   },
   {
     'title': 'Cougar CONQUER ATX Gaming Case',
     'subtitle': 'Cougar CONQUER ATX Gaming Case',
     'image': '../assets/images/sparepart/casingCPUcaugar.jpeg',
-    'price': 'Rp 1.699.000',
+    'price': 'Rp 3.000.000',
     'rating': '4.7',
   },
 ];

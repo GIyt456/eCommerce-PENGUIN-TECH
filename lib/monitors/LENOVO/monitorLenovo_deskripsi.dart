@@ -99,13 +99,15 @@ class MLenovodescription extends StatelessWidget {
                 children: [
                   ElevatedButton.icon(
                     onPressed: () {
-                      // Create a CartItem object to add to the cart
+                      // Create a CartItem object to add to the cart with the correct price
                       final cartItem = CartItem(
                         title: 'Lenovo Legion R27i',
                         image: '../assets/images/monitar/lenovo.jpg',
-                        price: 'Rp 2.600.000',
-                        rating: 4.8, // Add rating here
+                        price:
+                            'Rp 2.600.000', // Ensure the correct price is passed
+                        rating: 4.8,
                       );
+
                       // Add item to cart
                       Provider.of<CartProvider>(context, listen: false)
                           .addToCart(cartItem);
@@ -117,8 +119,10 @@ class MLenovodescription extends StatelessWidget {
                       );
                     },
                     icon: Icon(Icons.shopping_cart, color: Colors.white),
-                    label: Text('Go to Cart',
-                        style: TextStyle(color: Colors.white)),
+                    label: Text(
+                      'Go to Cart',
+                      style: TextStyle(color: Colors.white),
+                    ),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue,
                     ),

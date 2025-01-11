@@ -22,14 +22,16 @@ class CartItem {
   double get parsedPrice {
     double itemPrice = 0.0;
     try {
-      itemPrice = double.parse(price.replaceAll(RegExp(r'[^0-9.]'), ''));
+      // Menghapus semua karakter kecuali angka dan pemisah desimal
+      String cleanPrice =
+          price.replaceAll(RegExp(r'[^0-9.]'), '').replaceAll('.', '');
+      itemPrice = double.parse(cleanPrice);
     } catch (e) {
       print('Error parsing price for $title: $e');
     }
     return itemPrice;
   }
 }
-
 
 class CartProvider extends ChangeNotifier {
   List<CartItem> _cartItems = [];
@@ -64,8 +66,7 @@ class CartProvider extends ChangeNotifier {
   double calculateTotalPrice() {
     double total = 0.0;
     for (var item in selectedItems) {
-      // Multiply price by quantity
-      total += item.parsedPrice * item.quantity; 
+      total += item.parsedPrice * item.quantity;
     }
     return total;
   }

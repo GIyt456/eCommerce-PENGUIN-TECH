@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:mobile_programming/monitors/ASUSROG/monitorAsus_deskripsi.dart';
 import 'package:mobile_programming/monitors/SAMSUNG/monitorSamsung_deskripsi.dart';
 import 'package:mobile_programming/spareparts/corsair vegeance ram/corsair_deskripsi.dart';
-import '../home_page_1.dart'; // Import halaman HomePage1
-import '../profile/profile_page.dart'; // Import halaman ProfilePage
-import '../cart_page.dart'; // Import halaman CartPage
-import '../shop_page.dart'; // Import halaman ShopPage
-import '../monitors/ACER/monitorAcer_deskripsi.dart';
-
+import 'package:mobile_programming/monitors/ACER/monitorAcer_deskripsi.dart';
+import '../home_page_1.dart';
+import '../profile/profile_page.dart';
+import '../cart_page.dart';
 
 class WishlistPage extends StatefulWidget {
   @override
@@ -15,16 +13,16 @@ class WishlistPage extends StatefulWidget {
 }
 
 class _WishlistPageState extends State<WishlistPage> {
-  TextEditingController _searchController = TextEditingController();
-  List<Map<String, String?>> filteredproducts= products;
+  final TextEditingController _searchController = TextEditingController();
+  List<Map<String, String?>> _filteredProducts = products;
 
-  void _searchMonitors(String query) {
+  void _searchProducts(String query) {
     setState(() {
       if (query.isEmpty) {
-        filteredproducts= products;
+        _filteredProducts = products;
       } else {
-        filteredproducts= products.where((monitor) {
-          final titleLower = monitor['title']!.toLowerCase();
+        _filteredProducts = products.where((product) {
+          final titleLower = product['title']!.toLowerCase();
           final queryLower = query.toLowerCase();
           return titleLower.contains(queryLower);
         }).toList();
@@ -32,11 +30,10 @@ class _WishlistPageState extends State<WishlistPage> {
     });
   }
 
-  int _selectedIndex = 1; // Index tab 'Wishlist'
+  int _selectedIndex = 1;
 
   void _onItemTapped(int index) {
-    if (index == _selectedIndex)
-      return; // Jika sudah di halaman yang sama, tidak perlu navigasi ulang
+    if (index == _selectedIndex) return;
 
     switch (index) {
       case 0:
@@ -46,7 +43,6 @@ class _WishlistPageState extends State<WishlistPage> {
         );
         break;
       case 1:
-        // Tetap di halaman Wishlist
         break;
       case 2:
         Navigator.pushReplacement(
@@ -93,108 +89,93 @@ class _WishlistPageState extends State<WishlistPage> {
           SizedBox(width: 10),
         ],
       ),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Search Bar
-            TextField(
-              decoration: InputDecoration(
-                hintText: 'Search any Product...',
-                prefixIcon: Icon(Icons.search),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                filled: true,
-                fillColor: Colors.grey[200],
-              ),
-            ),
-            SizedBox(height: 20),
-
-            // Section Title
-            Text(
-              "Wishlist Product's",
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 10),
-
-            // Product Grid
-            GridView.builder(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-                childAspectRatio: 0.7,
-              ),
-              itemCount: filteredproducts.length,
-              itemBuilder: (context, index) {
-                final monitor = filteredproducts[index];
-                return GestureDetector(
-                  onTap: () {
-                    if (monitor['title'] == 'Acer Predator 27"') {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => MAcerdescription()),
-                      );
-                    }
-                    if (monitor['title'] == 'Asus ROG Strix G15') {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => MAsusROGdescription()),
-                      );
-                    }
-                    if (monitor['title'] == 'Samsung Odyssey Ark') {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => MSamsungdescription()),
-                      );
-                    }
-                    if (monitor['title'] == 'Corsair') {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => corsairdescription()),
-                      );
-                    }
-                    if (monitor['title'] == 'Samsung Odyssey Ark') {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => MSamsungdescription()),
-                      );
-                    }
-                    if (monitor['title'] == 'ASUS ROG Strix XG346C') {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => MAsusROGdescription()),
-                      );
-                    }
-                  },
-                  child: _buildProductCard(
-                    title: monitor['title'] ?? 'Unknown',
-                    price: monitor['price'] ?? 'Rp 0',
-                    image: monitor['image'] ?? 'assets/images/placeholder.png',
-                    rating: monitor['rating'] ?? '0.0',
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextField(
+                controller: _searchController,
+                onChanged: _searchProducts,
+                decoration: InputDecoration(
+                  hintText: 'Search any Product...',
+                  prefixIcon: Icon(Icons.search),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
                   ),
-                );
-              },
-            ),
-          ],
+                  filled: true,
+                  fillColor: Colors.grey[200],
+                ),
+              ),
+              SizedBox(height: 20),
+              Text(
+                "Wishlist Products",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 10),
+              GridView.builder(
+                shrinkWrap: true,
+                physics: ScrollPhysics(),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
+                  childAspectRatio: 0.7,
+                ),
+                itemCount: _filteredProducts.length,
+                itemBuilder: (context, index) {
+                  final product = _filteredProducts[index];
+                  return GestureDetector(
+                    onTap: () {
+                      if (product['title'] == 'Acer Predator Z27') {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => MAcerdescription()),
+                        );
+                      }
+                      if (product['title'] == 'Asus ROG Strix G15') {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => MAsusROGdescription()),
+                        );
+                      }
+                      if (product['title'] == 'Samsung Odyssey Ark') {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => MSamsungdescription()),
+                        );
+                      }
+                      if (product['title'] == 'Corsair Vengeance RAM 32GB') {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => corsairdescription()),
+                        );
+                      }
+                    },
+                    child: _buildProductCard(
+                      title: product['title'] ?? 'Unknown',
+                      price: product['price'] ?? 'Rp 0',
+                      image: product['image'] ?? 'assets/images/placeholder.png',
+                      rating: product['rating'] ?? '0.0',
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
-        selectedItemColor: Color(0xFF00B0CB), // Blue color for selected item
+        selectedItemColor: Color(0xFF00B0CB),
         unselectedItemColor: Colors.grey,
         type: BottomNavigationBarType.fixed,
         onTap: _onItemTapped,
@@ -245,7 +226,7 @@ class _WishlistPageState extends State<WishlistPage> {
             borderRadius: BorderRadius.vertical(top: Radius.circular(10.0)),
             child: Image.asset(
               image,
-              fit: BoxFit.cover,
+              fit: BoxFit.contain,
               height: 120,
               width: double.infinity,
             ),
@@ -309,7 +290,7 @@ final List<Map<String, String?>> products = [
     'rating': '4.8',
   },
   {
-    'title': 'Corsair',
+    'title': 'Corsair Vengeance RAM 32GB',
     'price': 'Rp 3.499.000',
     'image': '../assets/images/sparepart/RAMcorsair.jpeg',
     'rating': '4.7',

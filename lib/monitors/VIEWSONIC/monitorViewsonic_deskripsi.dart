@@ -43,10 +43,14 @@ class MViewsonicdescription extends StatelessWidget {
                 aspectRatio: 16 / 9,
                 child: PageView(
                   children: [
-                    Image.asset('../assets/images/monitar/viewsonic.jpg',
-                        fit: BoxFit.contain,),
-                    Image.asset('../assets/images/monitar/viewsonic_belakang.jpg',
-                        fit: BoxFit.contain,),
+                    Image.asset(
+                      '../assets/images/monitar/viewsonic.jpg',
+                      fit: BoxFit.contain,
+                    ),
+                    Image.asset(
+                      '../assets/images/monitar/viewsonic_belakang.jpg',
+                      fit: BoxFit.contain,
+                    ),
                   ],
                 ),
               ),
@@ -99,13 +103,15 @@ class MViewsonicdescription extends StatelessWidget {
                 children: [
                   ElevatedButton.icon(
                     onPressed: () {
-                      // Create a CartItem object to add to the cart
+                      // Create a CartItem object to add to the cart with the correct price
                       final cartItem = CartItem(
                         title: 'Viewsonic Va2432',
                         image: '../assets/images/monitar/viewsonic.jpg',
-                        price: 'Rp 1.320.000',
-                        rating: 4.8, // Add rating here
+                        price:
+                            'Rp 1.320.000', // Ensure the correct price is passed
+                        rating: 4.8,
                       );
+
                       // Add item to cart
                       Provider.of<CartProvider>(context, listen: false)
                           .addToCart(cartItem);
@@ -116,8 +122,11 @@ class MViewsonicdescription extends StatelessWidget {
                         MaterialPageRoute(builder: (context) => CartPage()),
                       );
                     },
-                    icon: Icon(Icons.shopping_cart),
-                    label: Text('Go to Cart'),
+                    icon: Icon(Icons.shopping_cart, color: Colors.white),
+                    label: Text(
+                      'Go to Cart',
+                      style: TextStyle(color: Colors.white),
+                    ),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue,
                     ),
